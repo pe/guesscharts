@@ -27,6 +27,7 @@ public class SwissChartsParser extends ChartsParser {
 	private URI songDetailsLink;
 	private InputStream mp3;
 	private String songURL;
+
 	@Override
 	public void getNewSong(int yearStart, int yearEnd, int positionStart, int positionEnd) {
 		int errors = 0;
@@ -42,7 +43,7 @@ public class SwissChartsParser extends ChartsParser {
 				int position = (int) (Math.random() * positionRange + positionStart);
 				System.out.println(position);
 
-				TagNode element = (TagNode) chartEntries.elementAt(position);
+				TagNode element = (TagNode) chartEntries.elementAt(position - 1);
 				String onclick = element.getAttribute("onclick");
 				songDetailsLink = new URI(HITPARADE + onclick.substring(15, onclick.length() - 2));
 				System.out.println(songDetailsLink);
@@ -51,9 +52,10 @@ public class SwissChartsParser extends ChartsParser {
 
 				String songName = page.elementAt(1).getChildren().elementAt(0).getChildren().elementAt(0).getChildren()
 						.elementAt(0).toHtml().replace(" (SONG)", "");
-				//song ="<HTML><BODY>"+page.toHtml()+"</BODY></HTML>";
-				song = "<HTML><BODY>"+songName+ " <br> Year: " +year + " <br>Position:  " + position  +"</BODY></HTML>";
-				songURL =page.toHtml();
+				// song ="<HTML><BODY>"+page.toHtml()+"</BODY></HTML>";
+				song = "<HTML><BODY>" + songName + " <br> Year: " + year + " <br>Position:  " + position
+						+ "</BODY></HTML>";
+				songURL = page.toHtml();
 				mp3 = getMp3(songURL);
 
 				return;
@@ -115,12 +117,11 @@ public class SwissChartsParser extends ChartsParser {
 					return mp3Url.openStream();
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.err.println(e);
 		}
 		return null;
 	}
-
 
 	@Override
 	public String getSong() {
@@ -131,7 +132,7 @@ public class SwissChartsParser extends ChartsParser {
 	public String getSongURL() {
 		return songURL;
 	}
-	
+
 	@Override
 	public URI getSongDetailsLink() {
 		return songDetailsLink;
