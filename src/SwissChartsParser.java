@@ -21,7 +21,7 @@ public class SwissChartsParser extends ChartsParser {
 	private static final int FIRST_CHART_YEAR = 1968;
 
 	private static final String HITPARADE = "http://www.hitparade.ch/";
-	private static final String HITPARADE_AUDIO = "http://audio.hitparade.ch/audio/";
+	private static final String HITPARADE_AUDIO = "http://stream.hitparade.ch/audio/";
 
 	private String song;
 	private URI songDetailsLink;
