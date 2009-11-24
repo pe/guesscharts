@@ -38,8 +38,11 @@ public class SwissChartsParser extends ChartsParser {
 				System.out.println(year);
 
 				NodeList chartEntries = getChartEntriesOfYear(year);
+				if (chartEntries == null) {
+					throw new RuntimeException("Error while reading the charts for " + year);
+				}
 
-				int positionRange = Math.min(positionEnd, chartEntries.size()) - positionStart;
+				int positionRange = Math.min(positionEnd, chartEntries.size()) - positionStart + 1;
 				int position = (int) (Math.random() * positionRange + positionStart);
 				System.out.println(position);
 
