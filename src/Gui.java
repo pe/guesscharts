@@ -54,7 +54,7 @@ public class Gui extends JFrame {
 		setTitle("Guesscharts - Philippe Eberli & Thomas Bruhin");
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(900, 240));
-		
+
 		JPanel north = new JPanel();
 		north.setLayout(new BoxLayout(north, BoxLayout.LINE_AXIS));
 		north.setBorder(new EmptyBorder(15, 15, 15, 15));
@@ -143,43 +143,42 @@ public class Gui extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch (currentStatus) {
-					// GUESSING -> Show solution & prepare for next Song
-					case GUESSING:
-						solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						solution.setText(parser.getSong());
-			
-						button.setText("Next Song");
-						button.setEnabled(true);
-						buttonPause.setText("Play again");
-						buttonPause.setEnabled(true);
-						currentStatus = Status.SHOWING_SOLUTION;
-						break;
-					case PAUSE:
-						solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						solution.setText(parser.getSong());
-			
-						button.setText("Next Song");
-						button.setEnabled(true);
-						buttonPause.setText("Play again");
-						buttonPause.setEnabled(true);
-						
-						currentStatus = Status.SHOWING_SOLUTION;
-						break;
-					// Showing solution -> Stop Playing, Load next song
-					case SHOWING_SOLUTION:
-						playNewSong();						
-						currentStatus = Status.GUESSING;
-						break;
-					default:
-						break;
+				// GUESSING -> Show solution & prepare for next Song
+				case GUESSING:
+					solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					solution.setText(parser.getSong());
+
+					button.setText("Next Song");
+					button.setEnabled(true);
+					buttonPause.setText("Play again");
+					buttonPause.setEnabled(true);
+					currentStatus = Status.SHOWING_SOLUTION;
+					break;
+				case PAUSE:
+					solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					solution.setText(parser.getSong());
+
+					button.setText("Next Song");
+					button.setEnabled(true);
+					buttonPause.setText("Play again");
+					buttonPause.setEnabled(true);
+
+					currentStatus = Status.SHOWING_SOLUTION;
+					break;
+				// Showing solution -> Stop Playing, Load next song
+				case SHOWING_SOLUTION:
+					playNewSong();
+					currentStatus = Status.GUESSING;
+					break;
+				default:
+					break;
 				}
 			}
 		});
 		getRootPane().setDefaultButton(button);
 
 		add(center, BorderLayout.CENTER);
-		
-		
+
 		JPanel south = new JPanel();
 		south.setLayout(new BoxLayout(south, BoxLayout.LINE_AXIS));
 		south.setBorder(new EmptyBorder(15, 15, 15, 15));
@@ -189,31 +188,31 @@ public class Gui extends JFrame {
 		buttonPause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch (currentStatus) {
-				// GUESSING -> Stop Playing 
-				case GUESSING:	
-					pauseSong();	
+				// GUESSING -> Stop Playing
+				case GUESSING:
+					pauseSong();
 					buttonPause.setText("Play again");
 					buttonPause.setEnabled(true);
 					currentStatus = Status.PAUSE;
-					break;					
-				// PAUSE: -> Play	
+					break;
+				// PAUSE: -> Play
 				case PAUSE:
-					playSong();	
+					playSong();
 					buttonPause.setText("Stop playing");
 					buttonPause.setEnabled(true);
 					currentStatus = Status.GUESSING;
 					break;
 				// Showing solution -> Play again
 				case SHOWING_SOLUTION:
-					playSongAgain();						
+					playSongAgain();
 					break;
 				default:
 					break;
-			}
+				}
 			}
 		});
 		south.add(buttonPause);
-		
+
 		add(south, BorderLayout.SOUTH);
 		pack();
 		setVisible(true);
@@ -227,13 +226,13 @@ public class Gui extends JFrame {
 		}
 		solution.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		solution.setText("Loading song...");
-		
+
 		Thread thread = new Thread() {
 			public void run() {
 				try {
 					button.setEnabled(false);
 					buttonPause.setEnabled(false);
-					//System.out.println("Play: "+parser.getSongURL() );
+					// System.out.println("Play: "+parser.getSongURL() );
 					player = new Player(parser.getMp3(parser.getSongURL()));
 
 					SwingUtilities.invokeLater(new Runnable() {
@@ -253,7 +252,7 @@ public class Gui extends JFrame {
 		};
 		thread.start();
 	}
-	
+
 	private void playSongAgain() {
 		if (player != null) {
 			player.close();
@@ -261,7 +260,7 @@ public class Gui extends JFrame {
 
 		Thread thread = new Thread() {
 			public void run() {
-				try {					
+				try {
 					player = new Player(parser.getMp3(parser.getSongURL()));
 
 					SwingUtilities.invokeLater(new Runnable() {
@@ -278,7 +277,7 @@ public class Gui extends JFrame {
 		};
 		thread.start();
 	}
-	
+
 	private void playNewSong() {
 		if (player != null) {
 			player.close();
@@ -293,7 +292,6 @@ public class Gui extends JFrame {
 					buttonPause.setEnabled(false);
 					parser.getNewSong((Integer) yearStart.getSelectedItem(), (Integer) yearEnd.getSelectedItem(),
 							(Integer) positionStart.getSelectedItem(), (Integer) positionEnd.getSelectedItem());
-					//System.out.println("Play: "+parser.getSongURL() );
 					player = new Player(parser.getMp3());
 
 					SwingUtilities.invokeLater(new Runnable() {
@@ -315,13 +313,13 @@ public class Gui extends JFrame {
 	}
 
 	private void pauseSong() {
-		//System.out.println("Pause: "+parser.getSongURL() );
+		// System.out.println("Pause: "+parser.getSongURL() );
 		if (player != null) {
 			player.close();
 		}
 		solution.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		solution.setText("Pause ...");
-		
+
 	}
 
 	public static void main(String[] args) throws ParserException, IOException, JavaLayerException {
