@@ -106,19 +106,15 @@ public class SwissChartsParser extends ChartsParser {
 		return nodes.elementAt(0).getChildren();
 	}
 
-	public InputStream getMp3(String songPage) {
-		try {
-			BufferedReader reader = new BufferedReader(new StringReader(songPage));
-			String inputLine;
-			while ((inputLine = reader.readLine()) != null) {
-				if (inputLine.contains("'flashvars'")) {
-					URL mp3Url = new URL(HITPARADE_AUDIO + inputLine.substring(44, 59) + ".mp3");
-					System.out.println(mp3Url);
-					return mp3Url.openStream();
-				}
+	public InputStream getMp3(String songPage) throws IOException {
+		BufferedReader reader = new BufferedReader(new StringReader(songPage));
+		String inputLine;
+		while ((inputLine = reader.readLine()) != null) {
+			if (inputLine.contains("'flashvars'")) {
+				URL mp3Url = new URL(HITPARADE_AUDIO + inputLine.substring(44, 59) + ".mp3");
+				System.out.println(mp3Url);
+				return mp3Url.openStream();
 			}
-		} catch (Exception e) {
-			System.err.println(e);
 		}
 		return null;
 	}

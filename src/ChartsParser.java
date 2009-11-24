@@ -1,10 +1,11 @@
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
 public abstract class ChartsParser {
 	public abstract InputStream getMp3();
 	
-	public abstract InputStream getMp3(String songURL);
+	public abstract InputStream getMp3(String songURL) throws IOException;
 	
 	public abstract URI getSongDetailsLink();
 
