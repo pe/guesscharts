@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -32,6 +31,7 @@ public class Gui extends JFrame {
 	private JButton button;
 	private JButton buttonPause;
 	private JLabel solution;
+	private JLabel link;
 
 	private JComboBox yearStart;
 	private JComboBox yearEnd;
@@ -116,14 +116,21 @@ public class Gui extends JFrame {
 		add(north, BorderLayout.NORTH);
 
 		JPanel center = new JPanel();
-		center.setLayout(new BoxLayout(center, BoxLayout.LINE_AXIS));
+		center.setLayout(new BoxLayout(center, BoxLayout.PAGE_AXIS));
 		center.setBorder(new EmptyBorder(0, 15, 15, 15));
+		
+		center.add(Box.createVerticalGlue());
 
 		solution = new JLabel();
-		solution.setFont(new Font("Serif", Font.BOLD, 20));
-		solution.setForeground(Color.blue);
+		solution.setFont(solution.getFont().deriveFont(20f));
 
-		solution.addMouseListener(new MouseAdapter() {
+		center.add(solution);
+		
+		link = new JLabel("<html><u>Details</u></html>");
+		link.setVisible(false);
+		link.setForeground(Color.blue);
+		link.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		link.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
@@ -135,9 +142,10 @@ public class Gui extends JFrame {
 				}
 			}
 		});
-		center.add(solution, BorderLayout.CENTER);
+		
+		center.add(link);
 
-		center.add(Box.createHorizontalGlue());
+		center.add(Box.createVerticalGlue());
 
 		button = new JButton("Show the solution");
 		button.addActionListener(new ActionListener() {
@@ -145,8 +153,8 @@ public class Gui extends JFrame {
 				switch (currentStatus) {
 				// GUESSING -> Show solution & prepare for next Song
 				case GUESSING:
-					solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					solution.setText(parser.getSong());
+					link.setVisible(true);
 
 					button.setText("Next Song");
 					button.setEnabled(true);
@@ -155,8 +163,8 @@ public class Gui extends JFrame {
 					currentStatus = Status.SHOWING_SOLUTION;
 					break;
 				case PAUSE:
-					solution.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					solution.setText(parser.getSong());
+					link.setVisible(true);
 
 					button.setText("Next Song");
 					button.setEnabled(true);
@@ -224,8 +232,8 @@ public class Gui extends JFrame {
 		if (player != null) {
 			player.close();
 		}
-		solution.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		solution.setText("Loading song...");
+		link.setVisible(false);
 
 		Thread thread = new Thread() {
 			public void run() {
@@ -282,8 +290,8 @@ public class Gui extends JFrame {
 		if (player != null) {
 			player.close();
 		}
-		solution.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		solution.setText("Loading song...");
+		link.setVisible(false);
 
 		Thread thread = new Thread() {
 			public void run() {
@@ -317,8 +325,8 @@ public class Gui extends JFrame {
 		if (player != null) {
 			player.close();
 		}
-		solution.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		solution.setText("Pause ...");
+		link.setVisible(false);
 
 	}
 
