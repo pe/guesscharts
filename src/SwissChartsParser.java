@@ -53,9 +53,8 @@ public class SwissChartsParser extends ChartsParser {
 
 				NodeList page = getSongPage(songDetailsLink);
 
-				String songName = page.elementAt(1).getChildren().elementAt(0).getChildren().elementAt(0).getChildren()
+				String songName = page.elementAt(2).getChildren().elementAt(0).getChildren().elementAt(0).getChildren()
 						.elementAt(0).toHtml().replace(" (SONG)", "");
-				// song ="<HTML><BODY>"+page.toHtml()+"</BODY></HTML>";
 				song = "<HTML><BODY>" + songName + " <br> Year: " + year + " <br>Position:  " + position
 						+ "</BODY></HTML>";
 				songURL = page.toHtml();
@@ -114,7 +113,8 @@ public class SwissChartsParser extends ChartsParser {
 		String inputLine;
 		while ((inputLine = reader.readLine()) != null) {
 			if (inputLine.contains("'flashvars'")) {
-				URL mp3Url = new URL(HITPARADE_AUDIO + inputLine.substring(44, 59) + ".mp3");
+				String substring = inputLine.substring(44, 59);
+				URL mp3Url = new URL(HITPARADE_AUDIO + substring + ".mp3");
 				System.out.println(mp3Url);
 				return mp3Url.openStream();
 			}
