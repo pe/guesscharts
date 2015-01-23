@@ -236,6 +236,7 @@ public class Gui extends JFrame {
 		link.setVisible(false);
 
 		Thread thread = new Thread() {
+			@Override
 			public void run() {
 				try {
 					button.setEnabled(false);
@@ -267,6 +268,7 @@ public class Gui extends JFrame {
 		}
 
 		Thread thread = new Thread() {
+			@Override
 			public void run() {
 				try {
 					player = new Player(parser.getMp3(parser.getSongURL()));
@@ -294,6 +296,7 @@ public class Gui extends JFrame {
 		link.setVisible(false);
 
 		Thread thread = new Thread() {
+			@Override
 			public void run() {
 				try {
 					button.setEnabled(false);

@@ -108,6 +108,7 @@ public class SwissChartsParser extends ChartsParser {
 		return nodes.elementAt(0).getChildren();
 	}
 
+	@Override
 	public InputStream getMp3(String songPage) throws IOException {
 		BufferedReader reader = new BufferedReader(new StringReader(songPage));
 		String inputLine;
