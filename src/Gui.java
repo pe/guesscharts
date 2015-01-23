@@ -33,10 +33,10 @@ public class Gui extends JFrame {
 	private JLabel solution;
 	private JLabel link;
 
-	private JComboBox yearStart;
-	private JComboBox yearEnd;
-	private JComboBox positionStart;
-	private JComboBox positionEnd;
+	private JComboBox<Integer> yearStart;
+	private JComboBox<Integer> yearEnd;
+	private JComboBox<Integer> positionStart;
+	private JComboBox<Integer> positionEnd;
 
 	private static enum Status {
 		GUESSING, SHOWING_SOLUTION, PAUSE
@@ -61,7 +61,7 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("Year"));
 
-		yearStart = new JComboBox(parser.getYears());
+		yearStart = new JComboBox<Integer>(parser.getYears());
 		yearStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (yearEnd.getSelectedIndex() < yearStart.getSelectedIndex()) {
@@ -73,7 +73,7 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("to"));
 
-		yearEnd = new JComboBox(parser.getYears());
+		yearEnd = new JComboBox<Integer>(parser.getYears());
 		yearEnd.setSelectedIndex(parser.getYears().length - 1);
 		yearEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -88,7 +88,7 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("Position"));
 
-		positionStart = new JComboBox(parser.getPositions());
+		positionStart = new JComboBox<Integer>(parser.getPositions());
 		positionStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (positionEnd.getSelectedIndex() < positionStart.getSelectedIndex()) {
@@ -100,7 +100,7 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("to"));
 
-		positionEnd = new JComboBox(parser.getPositions());
+		positionEnd = new JComboBox<Integer>(parser.getPositions());
 		positionEnd.setSelectedIndex(parser.getPositions().length - 1);
 		positionEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
