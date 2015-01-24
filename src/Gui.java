@@ -51,7 +51,7 @@ public class Gui extends JFrame {
 		this.parser = parser;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Guesscharts - Philippe Eberli & Thomas Bruhin");
+		setTitle("Guesscharts");
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(900, 240));
 
@@ -153,7 +153,7 @@ public class Gui extends JFrame {
 				switch (currentStatus) {
 				// GUESSING -> Show solution & prepare for next Song
 				case GUESSING:
-					solution.setText(parser.getSong());
+					solution.setText(parser.getSongDescription());
 					link.setVisible(true);
 
 					button.setText("Next Song");
@@ -163,7 +163,7 @@ public class Gui extends JFrame {
 					currentStatus = Status.SHOWING_SOLUTION;
 					break;
 				case PAUSE:
-					solution.setText(parser.getSong());
+					solution.setText(parser.getSongDescription());
 					link.setVisible(true);
 
 					button.setText("Next Song");
@@ -242,7 +242,7 @@ public class Gui extends JFrame {
 					button.setEnabled(false);
 					buttonPause.setEnabled(false);
 					// System.out.println("Play: "+parser.getSongURL() );
-					player = new Player(parser.getMp3(parser.getSongURL()));
+					player = new Player(parser.getSongURL().openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
@@ -271,7 +271,7 @@ public class Gui extends JFrame {
 			@Override
 			public void run() {
 				try {
-					player = new Player(parser.getMp3(parser.getSongURL()));
+					player = new Player(parser.getSongURL().openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
@@ -301,9 +301,9 @@ public class Gui extends JFrame {
 				try {
 					button.setEnabled(false);
 					buttonPause.setEnabled(false);
-					parser.getNewSong((Integer) yearStart.getSelectedItem(), (Integer) yearEnd.getSelectedItem(),
+					parser.nextSong((Integer) yearStart.getSelectedItem(), (Integer) yearEnd.getSelectedItem(),
 							(Integer) positionStart.getSelectedItem(), (Integer) positionEnd.getSelectedItem());
-					player = new Player(parser.getMp3());
+					player = new Player(parser.getSongURL().openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
