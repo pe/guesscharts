@@ -3,9 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/htmlparser.jar" sourcepath="lib/src.zip"/>
-	<classpathentry kind="lib" path="lib/htmllexer.jar" sourcepath="lib/src.zip"/>
-	<classpathentry kind="lib" path="lib/filterbuilder.jar" sourcepath="lib/src.zip"/>
-	<classpathentry kind="lib" path="lib/thumbelina.jar" sourcepath="lib/src.zip"/>
 	<classpathentry kind="lib" path="lib/jl1.0.1.jar" sourcepath="lib/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
