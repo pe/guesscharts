@@ -1,47 +1,107 @@
 package guesscharts;
-import java.net.URI;
-import java.net.URL;
 
-/**
- * Implement this Interface for specific chart sites.
- */
-public abstract class ChartsParser {
-	/**
-	 * @return a link to more details about the current song. <code>null</code> if {@link #nextSong(int, int, int, int)}
-	 *         wasn't called yet.
-	 */
-	public abstract URI getSongDetailsLink();
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public abstract class ChartsParser<T extends ChartEntry> {
+	private T chartEntry;
+
+	public ChartsParser(Class<T> chartEntryClass) {
+		try {
+			// T.newInstance() and no chartEntryClass parameter would be nice. Damn type erasure.
+			this.chartEntry = chartEntryClass.newInstance();
+		} catch (ReflectiveOperationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void nextSong(int yearFrom, int yearTo, int positionFrom, int positionTo) {
+		// Some subclasses require numberOfChartEntriesOfYear to be called before the *OfPosition methods.
+		int year = randomInt(yearFrom, yearTo);
+		int position = randomInt(positionFrom, Math.min(positionTo, numberOfChartEntries(year)));
+
+		chartEntry.setYear(year);
+		chartEntry.setPosition(position);
+		chartEntry.setArtist(artist(year, position));
+		chartEntry.setTitle(title(year, position));
+		chartEntry.setMoreDetails(detailURL(year, position));
+		chartEntry.setAudio(songURL(year, position));
+		chartEntry.setCover(coverURL(year, position));
+	}
+
+	public T chartEntry() {
+		return chartEntry;
+	}
+
+	public abstract List<Integer> selectableYears();
+
+	public abstract List<Integer> selectablePositions();
+
+	protected List<Integer> selectableYearsInternal(int firstYear) {
+		int yearCount = Calendar.getInstance().get(Calendar.YEAR) - firstYear;
+		List<Integer> years = new ArrayList<Integer>(yearCount);
+		for (int i = 0; i < yearCount; i++) {
+			years.add(firstYear + i);
+		}
+		return years;
+	}
 
 	/**
-	 * @return a description of the current song. <code>null</code> if {@link #nextSong(int, int, int, int)} wasn't
-	 *         called yet.
+	 * @return the number of chart positions of <code>year</code>.
 	 */
-	public abstract String getSongDescription();
+	protected abstract int numberOfChartEntries(int year);
 
 	/**
-	 * @return the URL of the current song. <code>null</code> if {@link #nextSong(int, int, int, int)} wasn't called
-	 *         yet.
+	 * @param position
+	 *            the chart position (0 based)
+	 * @param year
+	 *            the year
+	 * @returns URL of the album cover
 	 */
-	public abstract URL getSongURL();
+	protected abstract String coverURL(int year, int position);
 
 	/**
-	 * Randomly choose an other song between <code>yearStart</code> to <code>yearEnd</code> and
-	 * <code>positionStart</code> to <code>positionEnd</code>.
-	 * 
-	 * @param yearStart
-	 * @param yearEnd
-	 * @param positionStart
-	 * @param positionEnd
+	 * @param position
+	 *            the chart position (0 based)
+	 * @param year
+	 *            the year
+	 * @returns URL of the audio file to play
 	 */
-	public abstract void nextSong(int yearStart, int yearEnd, int positionStart, int positionEnd);
+	protected abstract String songURL(int year, int position);
 
 	/**
-	 * @return an Array of years to choose from
+	 * @param position
+	 *            the chart position (0 based)
+	 * @param year
+	 *            the year
+	 * @returns URL with more details about chart position
 	 */
-	public abstract Integer[] getYears();
+	protected abstract String detailURL(int year, int position);
 
 	/**
-	 * @return an Array of chart positions to choose from
+	 * @param position
+	 *            the chart position (0 based)
+	 * @param year
+	 *            the year
+	 * @returns song title
 	 */
-	public abstract Integer[] getPositions();
+	protected abstract String title(int year, int position);
+
+	/**
+	 * @param position
+	 *            the chart position (0 based)
+	 * @param year
+	 *            the year
+	 * @returns artist name
+	 */
+	protected abstract String artist(int year, int position);
+
+	/**
+	 * @return a random int between <code>start</code> and <code>end</code> (including start & end).
+	 */
+	private int randomInt(int start, int end) {
+		int range = end - start + 1;
+		return (int) (Math.random() * range + start);
+	}
 }

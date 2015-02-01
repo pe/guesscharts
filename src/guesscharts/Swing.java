@@ -1,4 +1,5 @@
 package guesscharts;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -10,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.net.URI;
+import java.net.URL;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,9 +29,7 @@ import javax.swing.border.EmptyBorder;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-import org.htmlparser.util.ParserException;
-
-public class Gui extends JFrame {
+public class Swing extends JFrame {
 	private JButton button;
 	private JButton buttonPause;
 	private JLabel solution;
@@ -45,10 +46,10 @@ public class Gui extends JFrame {
 
 	private Status currentStatus = Status.GUESSING;
 
-	private ChartsParser parser;
+	private ChartsParser<ChartEntry> parser;
 	private Player player;
 
-	public Gui(final ChartsParser parser) {
+	public Swing(final ChartsParser<ChartEntry> parser) {
 		this.parser = parser;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,8 +63,11 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("Year"));
 
-		yearStart = new JComboBox<Integer>(parser.getYears());
+		Integer[] selectableYears = parser.selectableYears().toArray(new Integer[0]);
+
+		yearStart = new JComboBox<Integer>(selectableYears);
 		yearStart.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (yearEnd.getSelectedIndex() < yearStart.getSelectedIndex()) {
 					yearEnd.setSelectedIndex(yearStart.getSelectedIndex());
@@ -74,9 +78,10 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("to"));
 
-		yearEnd = new JComboBox<Integer>(parser.getYears());
-		yearEnd.setSelectedIndex(parser.getYears().length - 1);
+		yearEnd = new JComboBox<Integer>(selectableYears);
+		yearEnd.setSelectedIndex(selectableYears.length - 1);
 		yearEnd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (yearStart.getSelectedIndex() > yearEnd.getSelectedIndex()) {
 					yearStart.setSelectedIndex(yearEnd.getSelectedIndex());
@@ -89,8 +94,11 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("Position"));
 
-		positionStart = new JComboBox<Integer>(parser.getPositions());
+		Integer[] selectablePositions = parser.selectablePositions().toArray(new Integer[0]);
+
+		positionStart = new JComboBox<Integer>(selectablePositions);
 		positionStart.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (positionEnd.getSelectedIndex() < positionStart.getSelectedIndex()) {
 					positionEnd.setSelectedIndex(positionStart.getSelectedIndex());
@@ -101,9 +109,10 @@ public class Gui extends JFrame {
 
 		north.add(new JLabel("to"));
 
-		positionEnd = new JComboBox<Integer>(parser.getPositions());
-		positionEnd.setSelectedIndex(parser.getPositions().length - 1);
+		positionEnd = new JComboBox<Integer>(selectablePositions);
+		positionEnd.setSelectedIndex(selectablePositions.length - 1);
 		positionEnd.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (positionStart.getSelectedIndex() > positionEnd.getSelectedIndex()) {
 					positionStart.setSelectedIndex(positionEnd.getSelectedIndex());
@@ -119,14 +128,14 @@ public class Gui extends JFrame {
 		JPanel center = new JPanel();
 		center.setLayout(new BoxLayout(center, BoxLayout.PAGE_AXIS));
 		center.setBorder(new EmptyBorder(0, 15, 15, 15));
-		
+
 		center.add(Box.createVerticalGlue());
 
 		solution = new JLabel();
 		solution.setFont(solution.getFont().deriveFont(20f));
 
 		center.add(solution);
-		
+
 		link = new JLabel("<html><u>Details</u></html>");
 		link.setVisible(false);
 		link.setForeground(Color.blue);
@@ -136,25 +145,26 @@ public class Gui extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					if (currentStatus == Status.SHOWING_SOLUTION) {
-						Desktop.getDesktop().browse(parser.getSongDetailsLink());
+						Desktop.getDesktop().browse(new URI(parser.chartEntry().getMoreDetails()));
 					}
-				} catch (IOException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		center.add(link);
 
 		center.add(Box.createVerticalGlue());
 
 		button = new JButton("Show the solution");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch (currentStatus) {
 				// GUESSING -> Show solution & prepare for next Song
 				case GUESSING:
-					solution.setText(parser.getSongDescription());
+					solution.setText(parser.chartEntry().getArtist() + " - " + parser.chartEntry().getTitle());
 					link.setVisible(true);
 
 					button.setText("Next Song");
@@ -164,7 +174,7 @@ public class Gui extends JFrame {
 					currentStatus = Status.SHOWING_SOLUTION;
 					break;
 				case PAUSE:
-					solution.setText(parser.getSongDescription());
+					solution.setText(parser.chartEntry().getArtist() + " - " + parser.chartEntry().getTitle());
 					link.setVisible(true);
 
 					button.setText("Next Song");
@@ -195,6 +205,7 @@ public class Gui extends JFrame {
 		buttonPause = new JButton("Stop playing");
 		buttonPause.setEnabled(false);
 		buttonPause.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch (currentStatus) {
 				// GUESSING -> Stop Playing
@@ -242,10 +253,11 @@ public class Gui extends JFrame {
 				try {
 					button.setEnabled(false);
 					buttonPause.setEnabled(false);
-					// System.out.println("Play: "+parser.getSongURL() );
-					player = new Player(parser.getSongURL().openStream());
+
+					player = new Player(new URL(parser.chartEntry().getAudio()).openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
+						@Override
 						public void run() {
 							solution.setText("Guess...");
 							button.setText("Show the solution");
@@ -272,9 +284,10 @@ public class Gui extends JFrame {
 			@Override
 			public void run() {
 				try {
-					player = new Player(parser.getSongURL().openStream());
+					player = new Player(new URL(parser.chartEntry().getAudio()).openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
+						@Override
 						public void run() {
 							button.setEnabled(true);
 							buttonPause.setEnabled(true);
@@ -304,9 +317,10 @@ public class Gui extends JFrame {
 					buttonPause.setEnabled(false);
 					parser.nextSong((Integer) yearStart.getSelectedItem(), (Integer) yearEnd.getSelectedItem(),
 							(Integer) positionStart.getSelectedItem(), (Integer) positionEnd.getSelectedItem());
-					player = new Player(parser.getSongURL().openStream());
+					player = new Player(new URL(parser.chartEntry().getAudio()).openStream());
 
 					SwingUtilities.invokeLater(new Runnable() {
+						@Override
 						public void run() {
 							solution.setText("Guess...");
 							button.setText("Show the solution");
@@ -334,14 +348,15 @@ public class Gui extends JFrame {
 
 	}
 
-	public static void main(String[] args) throws ParserException, IOException, JavaLayerException {
+	public static void main(String[] args) throws IOException, JavaLayerException {
 		setNativeLookAndFeel();
 		setExceptionHandler();
-		new Gui(new SwissChartsParser());
+		new Swing(new SwissChartsParser<ChartEntry>(ChartEntry.class));
 	}
 
 	private static void setExceptionHandler() {
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			@Override
 			public void uncaughtException(Thread t, Throwable e) {
 				String message = e.getMessage();
 				if (e instanceof NullPointerException) {
