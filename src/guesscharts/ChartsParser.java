@@ -21,7 +21,7 @@ public abstract class ChartsParser<T extends ChartEntry> {
 		int position = randomInt(positionFrom, Math.min(positionTo, numberOfChartEntries(year))) - 1;
 
 		chartEntry.setYear(year);
-		chartEntry.setPosition(position);
+		chartEntry.setPosition(position + 1);
 		chartEntry.setArtist(artist(year, position));
 		chartEntry.setTitle(title(year, position));
 		chartEntry.setMoreDetails(detailURL(year, position));
