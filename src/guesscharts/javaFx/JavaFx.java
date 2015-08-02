@@ -92,6 +92,7 @@ public class JavaFx extends Application {
 		showSolutionButton.setOnAction(event -> {
 			showSolutionButton.setVisible(false);
 			solutions.setEffect(null);
+			solutions.setDisable(false);
 		});
 
 		solutions.getChildren().addAll(image, text);
@@ -148,6 +149,7 @@ public class JavaFx extends Application {
 		nextButton.setOnAction(event -> {
 			parser.nextSong(yearFrom.getValue(), yearTo.getValue(), positionFrom.getValue(), positionTo.getValue());
 			showSolutionButton.setVisible(true);
+			solutions.setDisable(true);
 			solutions.setEffect(BLUR_AND_MONOCHROME);
 		});
 
