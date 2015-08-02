@@ -31,7 +31,7 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	@Override
-	protected int numberOfChartEntries(int year) {
+	protected int highestPosition(int year) {
 		try {
 			Document doc = Jsoup.connect(JAHRES_HITPARADE + year).get();
 			elements = doc.select("tr[xonclick^=location.href='/song/]");

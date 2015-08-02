@@ -17,16 +17,29 @@ public abstract class ChartsParser<T extends ChartEntry> {
 	}
 
 	public void nextSong(int yearFrom, int yearTo, int positionFrom, int positionTo) {
-		int year = randomInt(yearFrom, yearTo);
-		int position = randomInt(positionFrom, Math.min(positionTo, numberOfChartEntries(year))) - 1;
+		int year;
+		int position;
+		while (true) {
+			year = randomInt(yearFrom, yearTo);
+			int highestPositionOfYear = highestPosition(year);
+			if (positionFrom > highestPositionOfYear) {
+				System.out.printf("Only %d positions in %d. None between %d and %d. Reshuffling.%n",
+						highestPositionOfYear, year, positionFrom, positionTo);
+			} else {
+				int highestPossiblePosition = Math.min(highestPositionOfYear, positionTo);
+				position = randomInt(positionFrom, highestPossiblePosition);
+				break;
+			}
+		}
 
+		int position0Based = position-1;
 		chartEntry.setYear(year);
-		chartEntry.setPosition(position + 1);
-		chartEntry.setArtist(artist(year, position));
-		chartEntry.setTitle(title(year, position));
-		chartEntry.setMoreDetails(detailURL(year, position));
-		chartEntry.setAudio(songURL(year, position));
-		chartEntry.setCover(coverURL(year, position));
+		chartEntry.setPosition(position);
+		chartEntry.setArtist(artist(year, position0Based));
+		chartEntry.setTitle(title(year, position0Based));
+		chartEntry.setMoreDetails(detailURL(year, position0Based));
+		chartEntry.setAudio(songURL(year, position0Based));
+		chartEntry.setCover(coverURL(year, position0Based));
 	}
 
 	public T chartEntry() {
@@ -47,9 +60,9 @@ public abstract class ChartsParser<T extends ChartEntry> {
 	}
 
 	/**
-	 * @return the number of chart positions of <code>year</code>.
+	 * @return the highest chart position of <code>year</code>.
 	 */
-	protected abstract int numberOfChartEntries(int year);
+	protected abstract int highestPosition(int year);
 
 	/**
 	 * @param position
