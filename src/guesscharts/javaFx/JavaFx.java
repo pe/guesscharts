@@ -15,6 +15,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Separator;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.ToolBar;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.ColorAdjust;
@@ -106,11 +107,25 @@ public class JavaFx extends Application {
 		ComboBox<Integer> yearTo = new ComboBox<>(years);
 		yearTo.getSelectionModel().select(years.size() - 1);
 
+		yearFrom.setOnAction(event -> {
+			ensureToIsNotSmallerThanFrom(yearFrom.getSelectionModel(), yearTo.getSelectionModel());
+		});
+		yearTo.setOnAction(event -> {
+			ensureFromIsNotBiggerThanTo(yearFrom.getSelectionModel(), yearTo.getSelectionModel());
+		});
+
 		ObservableList<Integer> positions = FXCollections.observableList(parser.selectablePositions());
 		ComboBox<Integer> positionFrom = new ComboBox<>(positions);
 		positionFrom.getSelectionModel().select(0);
 		ComboBox<Integer> positionTo = new ComboBox<>(positions);
 		positionTo.getSelectionModel().select(positions.size() - 1);
+		
+		positionFrom.setOnAction(event -> {
+			ensureToIsNotSmallerThanFrom(positionFrom.getSelectionModel(), positionTo.getSelectionModel());
+		});
+		positionTo.setOnAction(event -> {
+			ensureFromIsNotBiggerThanTo(positionFrom.getSelectionModel(), positionTo.getSelectionModel());
+		});
 
 		Button playButton = new Button(); // TODO : Länge muss längstem String entsprechen
 		playButton.setOnAction(event -> {
@@ -167,6 +182,22 @@ public class JavaFx extends Application {
 		return new ToolBar(new Label("Year"), yearFrom, new Label("to"), yearTo, new Separator(),
 				new Label("Position"), positionFrom, new Label("to"), positionTo, new Separator(), playButton,
 				nextButton, progressBar);
+	}
+
+	private void ensureToIsNotSmallerThanFrom(SingleSelectionModel<Integer> from, SingleSelectionModel<Integer> to) {
+		int fromIndex = from.getSelectedIndex();
+		int toIndex = to.getSelectedIndex();
+		if (fromIndex > toIndex) {
+			to.select(fromIndex);
+		}
+	}
+
+	private void ensureFromIsNotBiggerThanTo(SingleSelectionModel<Integer> from, SingleSelectionModel<Integer> to) {
+		int fromIndex = from.getSelectedIndex();
+		int toIndex = to.getSelectedIndex();
+		if (fromIndex > toIndex) {
+			from.select(toIndex);
+		}
 	}
 
 	public static void main(String[] args) {

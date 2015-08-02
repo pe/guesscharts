@@ -100,6 +100,9 @@ public abstract class ChartsParser<T extends ChartEntry> {
 	 * @return a random int between <code>start</code> and <code>end</code> (including start & end).
 	 */
 	private int randomInt(int start, int end) {
+		if (end < start) {
+			throw new IllegalStateException();
+		}
 		int range = end - start + 1;
 		return (int) (Math.random() * range + start);
 	}
