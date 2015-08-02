@@ -17,6 +17,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -39,7 +40,12 @@ public class JavaFx extends Application {
 	private MediaView mediaView = new MediaView();
 	private Button showSolutionButton = new Button("Show Solution");
 	private HBox solutions = new HBox(10);
-	private static final BoxBlur BLUR = new BoxBlur(20, 20, 3);
+	
+	private static final BoxBlur BLUR_AND_MONOCHROME = new BoxBlur(20, 20, 3);
+	private static final ColorAdjust MONOCHROME = new ColorAdjust(0, -1.0, 0, 0);
+	static {
+		BLUR_AND_MONOCHROME.setInput(MONOCHROME);
+	}
 
 	@Override
 	public void start(Stage stage) throws NoSuchMethodException {
@@ -88,7 +94,7 @@ public class JavaFx extends Application {
 		});
 
 		solutions.getChildren().addAll(image, text);
-		solutions.setEffect(BLUR);
+		solutions.setEffect(BLUR_AND_MONOCHROME);
 		solutions.setPadding(new Insets(10));
 		return new StackPane(solutions, showSolutionButton);
 	}
@@ -127,7 +133,7 @@ public class JavaFx extends Application {
 		nextButton.setOnAction(event -> {
 			parser.nextSong(yearFrom.getValue(), yearTo.getValue(), positionFrom.getValue(), positionTo.getValue());
 			showSolutionButton.setVisible(true);
-			solutions.setEffect(BLUR);
+			solutions.setEffect(BLUR_AND_MONOCHROME);
 		});
 
 		ProgressBar progressBar = new ProgressBar(0.0);
