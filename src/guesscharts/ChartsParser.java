@@ -19,7 +19,7 @@ public abstract class ChartsParser<T extends ChartEntry> {
 	public void nextSong(int yearFrom, int yearTo, int positionFrom, int positionTo) {
 		// Some subclasses require numberOfChartEntriesOfYear to be called before the *OfPosition methods.
 		int year = randomInt(yearFrom, yearTo);
-		int position = randomInt(positionFrom, Math.min(positionTo, numberOfChartEntries(year)));
+		int position = randomInt(positionFrom, Math.min(positionTo, numberOfChartEntries(year))) - 1;
 
 		chartEntry.setYear(year);
 		chartEntry.setPosition(position);
