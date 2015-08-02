@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -43,7 +44,12 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 
 	@Override
 	protected String artist(int year, int position) {
-		return elements.get(position).select("td:eq(2)").text();
+		// There are two kinds structures. Some have a link tag in the table data, some don't.
+		Element element = elements.get(position).select("td:eq(2) a").first();
+		if (element == null) {
+			element = elements.get(position).select("td:eq(2)").first();
+		}
+		return element.ownText();
 	}
 
 	@Override
