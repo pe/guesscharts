@@ -1,5 +1,7 @@
 package guesscharts.javaFx;
 
+import guesscharts.ChartsEntry;
+import guesscharts.ChartsEntrySelector;
 import guesscharts.ChartsParser;
 import guesscharts.SwissChartsParser;
 import javafx.application.Application;
@@ -41,7 +43,7 @@ public class JavaFx extends Application {
 	private MediaView mediaView = new MediaView();
 	private Button showSolutionButton = new Button("Show Solution");
 	private HBox solutions = new HBox(10);
-	
+
 	private static final BoxBlur BLUR_AND_MONOCHROME = new BoxBlur(20, 20, 3);
 	private static final ColorAdjust MONOCHROME = new ColorAdjust(0, -1.0, 0, 0);
 	static {
@@ -50,8 +52,9 @@ public class JavaFx extends Application {
 
 	@Override
 	public void start(Stage stage) throws NoSuchMethodException {
-		ChartsParser<PropertyChartEntry> parser = new SwissChartsParser<>(PropertyChartEntry.class);
-		PropertyChartEntry chartEntry = parser.chartEntry();
+		ChartsParser parser = new SwissChartsParser();
+		ChartsEntrySelector selector = new ChartsEntrySelector(parser);
+		PropertyChartEntry chartEntry = new PropertyChartEntry();
 		chartEntry.audio.addListener((o, oldValue, newValue) -> {
 			MediaPlayer mediaPlayer = new MediaPlayer(new Media(newValue));
 			mediaPlayer.setAutoPlay(true);
@@ -60,7 +63,7 @@ public class JavaFx extends Application {
 
 		BorderPane root = new BorderPane();
 		root.setCenter(createCenter(chartEntry));
-		root.setTop(createToolBar(parser));
+		root.setTop(createToolBar(parser, selector, chartEntry));
 
 		stage.setScene(new Scene(root));
 		stage.setTitle("Chart Guesser");
@@ -84,8 +87,8 @@ public class JavaFx extends Application {
 		Hyperlink moreDetails = new Hyperlink("Details");
 		moreDetails.setOnAction(event -> getHostServices().showDocument(chartEntry.moreDetails.get()));
 
-		TextFlow text = new TextFlow(artist, new Text(" – "), title, new Text("\n"), position, new Text(" in "), year,
-				new Text("\n"), moreDetails);
+		TextFlow text = new TextFlow(artist, new Text(" – "), title, new Text("\n"), position, new Text(" in "), year, new Text("\n"),
+				moreDetails);
 		text.setStyle("-fx-font-size: 25pt;");
 
 		showSolutionButton.setFont(new Font(20));
@@ -101,8 +104,8 @@ public class JavaFx extends Application {
 		return new StackPane(solutions, showSolutionButton);
 	}
 
-	private Node createToolBar(ChartsParser<?> parser) {
-		ObservableList<Integer> years = FXCollections.observableList(parser.selectableYears());
+	private Node createToolBar(ChartsParser parser, ChartsEntrySelector selector, PropertyChartEntry chartEntry) {
+		ObservableList<Integer> years = FXCollections.observableList(parser.availableYears());
 		ComboBox<Integer> yearFrom = new ComboBox<>(years);
 		yearFrom.getSelectionModel().select(0);
 		ComboBox<Integer> yearTo = new ComboBox<>(years);
@@ -115,12 +118,12 @@ public class JavaFx extends Application {
 			ensureFromIsNotBiggerThanTo(yearFrom.getSelectionModel(), yearTo.getSelectionModel());
 		});
 
-		ObservableList<Integer> positions = FXCollections.observableList(parser.selectablePositions());
+		ObservableList<Integer> positions = FXCollections.observableList(parser.availablePositions());
 		ComboBox<Integer> positionFrom = new ComboBox<>(positions);
 		positionFrom.getSelectionModel().select(0);
 		ComboBox<Integer> positionTo = new ComboBox<>(positions);
 		positionTo.getSelectionModel().select(positions.size() - 1);
-		
+
 		positionFrom.setOnAction(event -> {
 			ensureToIsNotSmallerThanFrom(positionFrom.getSelectionModel(), positionTo.getSelectionModel());
 		});
@@ -147,7 +150,9 @@ public class JavaFx extends Application {
 
 		Button nextButton = new Button("Next Song");
 		nextButton.setOnAction(event -> {
-			parser.nextSong(yearFrom.getValue(), yearTo.getValue(), positionFrom.getValue(), positionTo.getValue());
+			ChartsEntry newEntry = selector.randomEntry(yearFrom.getValue(), yearTo.getValue(), positionFrom.getValue(),
+					positionTo.getValue());
+			chartEntry.update(newEntry);
 			showSolutionButton.setVisible(true);
 			solutions.setDisable(true);
 			solutions.setEffect(BLUR_AND_MONOCHROME);
@@ -166,9 +171,9 @@ public class JavaFx extends Application {
 			newPlayer.setOnEndOfMedia(() -> {
 				// Stopping the player resets playback to start time, but is doesn't reset currentTime to
 				// zero. Seeking does.
-					newPlayer.seek(new Duration(0.0));
-					newPlayer.stop();
-				});
+				newPlayer.seek(new Duration(0.0));
+				newPlayer.stop();
+			});
 			newPlayer.setOnPaused(() -> playButton.setText(PLAY));
 			newPlayer.setOnReady(() -> playButton.setText(PLAY));
 			newPlayer.setOnStopped(() -> playButton.setText(PLAY_AGAIN));
@@ -181,9 +186,8 @@ public class JavaFx extends Application {
 
 		nextButton.fire(); // Load the first player
 
-		return new ToolBar(new Label("Year"), yearFrom, new Label("to"), yearTo, new Separator(),
-				new Label("Position"), positionFrom, new Label("to"), positionTo, new Separator(), playButton,
-				nextButton, progressBar);
+		return new ToolBar(new Label("Year"), yearFrom, new Label("to"), yearTo, new Separator(), new Label("Position"), positionFrom,
+				new Label("to"), positionTo, new Separator(), playButton, nextButton, progressBar);
 	}
 
 	private void ensureToIsNotSmallerThanFrom(SingleSelectionModel<Integer> from, SingleSelectionModel<Integer> to) {

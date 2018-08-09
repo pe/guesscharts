@@ -1,11 +1,12 @@
 package guesscharts;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +16,7 @@ import org.jsoup.select.Elements;
 /**
  * Parses http://www.hitparade.ch.
  */
-public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
+public class SwissChartsParser extends ChartsParser {
 	private static final String HITPARADE = "https://hitparade.ch";
 	private static final String JAHRES_HITPARADE = HITPARADE + "/yearurl.asp?key=";
 	private static final String HITPARADE_COVER = HITPARADE + "/cdimag/";
@@ -27,12 +28,8 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 
 	private Elements elements;
 
-	public SwissChartsParser(Class<T> chartEntry) {
-		super(chartEntry);
-	}
-
 	@Override
-	protected int highestPosition(int year) {
+	public int highestPosition(int year) {
 		try {
 			Document doc = Jsoup.connect(JAHRES_HITPARADE + year).get();
 			elements = doc.select("tr[xonclick^=location.href='/song/]");
@@ -54,19 +51,19 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	@Override
-	protected String title(int year, int position) {
+	public String title(int year, int position) {
 		return elements.get(position).select("td:eq(3)").text();
 	}
 
 	@Override
-	protected String detailURL(int year, int position) {
+	public String detailURL(int year, int position) {
 		Element element = elements.get(position);
 		String onclick = element.select("td:eq(2)").attr("onclick");
 		return HITPARADE + firstGroupMatch(onclick, ONCLICK_LINK).replace("\\", "");
 	}
 
 	@Override
-	protected String songURL(int year, int position) {
+	public String songURL(int year, int position) {
 		String onclick = elements.get(position).select("td:eq(4) a").attr("onclick");
 		String songId = firstGroupMatch(onclick, SONG_ID);
 		String parentId = songId.substring(0, 3) + "0000";
@@ -74,14 +71,14 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	@Override
-	protected String coverURL(int year, int position) {
+	public String coverURL(int year, int position) {
 		String imgSrc = elements.get(position).select("td:eq(1) img").attr("src");
 		return HITPARADE_COVER + firstGroupMatch(imgSrc, LAST_URL_PART);
 	}
 
 	/**
-	 * @return the first result of {@link Matcher#group(int)}. <code>null</code> in all other cases ( <code>pattern</code> doesn't match <code>string</code>, no
-	 *         group found)
+	 * @return the first result of {@link Matcher#group(int)}. <code>null</code> in all other cases (<code>pattern</code> doesn't match
+	 *         <code>string</code>, no group found)
 	 */
 	private static String firstGroupMatch(String string, Pattern pattern) {
 		Matcher matcher = pattern.matcher(string);
@@ -92,14 +89,14 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	@Override
-	public List<Integer> selectablePositions() {
+	public List<Integer> availablePositions() {
 		return List.of(1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100);
 	}
 
 	public static final int FIRST_YEAR = 1968;
 
 	@Override
-	public List<Integer> selectableYears() {
+	public List<Integer> availableYears() {
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 		return IntStream.range(FIRST_YEAR, currentYear).boxed().collect(Collectors.toList());
 	}
