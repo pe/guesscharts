@@ -2,6 +2,7 @@ package guesscharts;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -91,13 +92,14 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 
 	@Override
 	public List<Integer> selectablePositions() {
-		return Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+		return List.of(1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100);
 	}
 
-	private static final int FIRST_SWISS_CHART_YEAR = 1968;
+	public static final int FIRST_YEAR = 1968;
 
 	@Override
 	public List<Integer> selectableYears() {
-		return selectableYearsInternal(FIRST_SWISS_CHART_YEAR);
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		return IntStream.range(FIRST_YEAR, currentYear).boxed().collect(Collectors.toList());
 	}
 }

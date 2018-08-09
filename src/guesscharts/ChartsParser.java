@@ -1,7 +1,5 @@
 package guesscharts;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public abstract class ChartsParser<T extends ChartEntry> {
@@ -50,14 +48,6 @@ public abstract class ChartsParser<T extends ChartEntry> {
 
 	public abstract List<Integer> selectablePositions();
 
-	protected List<Integer> selectableYearsInternal(int firstYear) {
-		int yearCount = Calendar.getInstance().get(Calendar.YEAR) - firstYear;
-		List<Integer> years = new ArrayList<Integer>(yearCount);
-		for (int i = 0; i < yearCount; i++) {
-			years.add(firstYear + i);
-		}
-		return years;
-	}
 
 	/**
 	 * @return the highest chart position of <code>year</code>.
