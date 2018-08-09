@@ -1,31 +1,27 @@
 package guesscharts.javaFx;
 
-import guesscharts.ChartEntry;
+import guesscharts.ChartsEntry;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
-import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
-public class PropertyChartEntry extends ChartEntry {
-	public final IntegerProperty year;
-	public final IntegerProperty position;
-	public final StringProperty artist;
-	public final StringProperty title;
-	public final StringProperty moreDetails;
-	public final StringProperty audio;
-	public final StringProperty cover;
+public class PropertyChartEntry {
+	public final IntegerProperty year = new ReadOnlyIntegerWrapper();
+	public final IntegerProperty position = new ReadOnlyIntegerWrapper();
+	public final StringProperty artist = new ReadOnlyStringWrapper();
+	public final StringProperty title = new ReadOnlyStringWrapper();
+	public final StringProperty moreDetails = new ReadOnlyStringWrapper();
+	public final StringProperty audio = new ReadOnlyStringWrapper();
+	public final StringProperty cover = new ReadOnlyStringWrapper();
 
-	public PropertyChartEntry() {
-		try {
-			year = new JavaBeanIntegerPropertyBuilder().bean(this).name("year").build();
-			position = new JavaBeanIntegerPropertyBuilder().bean(this).name("position").build();
-			artist = new JavaBeanStringPropertyBuilder().bean(this).name("artist").build();
-			title = new JavaBeanStringPropertyBuilder().bean(this).name("title").build();
-			moreDetails = new JavaBeanStringPropertyBuilder().bean(this).name("moreDetails").build();
-			audio = new JavaBeanStringPropertyBuilder().bean(this).name("audio").build();
-			cover = new JavaBeanStringPropertyBuilder().bean(this).name("cover").build();
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e);
-		}
+	public void update(ChartsEntry chartEntry) {
+		year.set(chartEntry.year);
+		position.set(chartEntry.position);
+		artist.set(chartEntry.artist);
+		title.set(chartEntry.title);
+		moreDetails.set(chartEntry.detailURL);
+		audio.set(chartEntry.songURL);
+		cover.set(chartEntry.coverURL);
 	}
 }
