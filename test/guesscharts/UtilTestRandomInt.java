@@ -1,4 +1,4 @@
-package guesscharts.javaFx;
+package guesscharts;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.is;
