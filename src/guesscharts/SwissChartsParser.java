@@ -16,12 +16,12 @@ import org.jsoup.select.Elements;
  * Parses http://www.hitparade.ch.
  */
 public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
-	private static final String HITPARADE = "http://www.hitparade.ch";
-	private static final String JAHRES_HITPARADE = HITPARADE + "/charts/jahreshitparade/";
+	private static final String HITPARADE = "https://hitparade.ch";
+	private static final String JAHRES_HITPARADE = HITPARADE + "/yearurl.asp?key=";
 	private static final String HITPARADE_COVER = HITPARADE + "/cdimag/";
 	private static final String HITPARADE_AUDIO = "http://streamd.hitparade.ch/audio/";
 
-	private static final Pattern SONG_ID = Pattern.compile("playAudio2\\('(\\d{7})'\\);return false;");
+	private static final Pattern SONG_ID = Pattern.compile("playAudioIpad\\('(\\d{7})'\\);return false;");
 	private static final Pattern ONCLICK_LINK = Pattern.compile("location.href='(\\S+)';");
 	private static final Pattern LAST_URL_PART = Pattern.compile(".*/(\\S+)");
 
@@ -60,7 +60,8 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 
 	@Override
 	protected String detailURL(int year, int position) {
-		String onclick = elements.get(position).select("td:eq(2)").attr("onclick");
+		Element element = elements.get(position);
+		String onclick = element.select("td:eq(2)").attr("onclick");
 		return HITPARADE + firstGroupMatch(onclick, ONCLICK_LINK).replace("\\", "");
 	}
 
