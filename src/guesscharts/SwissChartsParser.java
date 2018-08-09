@@ -44,8 +44,8 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	@Override
-	protected String artist(int year, int position) {
-		// There are two kinds structures. Some have a link tag in the table data, some don't.
+	public String artist(int year, int position) {
+		// There are two kinds of structures. Some have a link tag in the table data, some don't.
 		Element element = elements.get(position).select("td:eq(2) a").first();
 		if (element == null) {
 			element = elements.get(position).select("td:eq(2)").first();
@@ -80,8 +80,8 @@ public class SwissChartsParser<T extends ChartEntry> extends ChartsParser<T> {
 	}
 
 	/**
-	 * @return the first result of {@link Matcher#group(int)}. <code>null</code> in all other cases (
-	 *         <code>pattern</code> doesn't match <code>string</code>, no group found)
+	 * @return the first result of {@link Matcher#group(int)}. <code>null</code> in all other cases ( <code>pattern</code> doesn't match <code>string</code>, no
+	 *         group found)
 	 */
 	private static String firstGroupMatch(String string, Pattern pattern) {
 		Matcher matcher = pattern.matcher(string);
