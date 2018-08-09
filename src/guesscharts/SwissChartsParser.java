@@ -3,7 +3,6 @@ package guesscharts;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -59,13 +58,13 @@ public class SwissChartsParser extends ChartsParser {
 	public String detailURL(int year, int position) {
 		Element element = elements.get(position);
 		String onclick = element.select("td:eq(2)").attr("onclick");
-		return HITPARADE + firstGroupMatch(onclick, ONCLICK_LINK).replace("\\", "");
+		return HITPARADE + Util.firstMatch(onclick, ONCLICK_LINK).replace("\\", "");
 	}
 
 	@Override
 	public String songURL(int year, int position) {
 		String onclick = elements.get(position).select("td:eq(4) a").attr("onclick");
-		String songId = firstGroupMatch(onclick, SONG_ID);
+		String songId = Util.firstMatch(onclick, SONG_ID);
 		String parentId = songId.substring(0, 3) + "0000";
 		return HITPARADE_AUDIO + parentId + "/" + songId + ".mp3";
 	}
@@ -73,19 +72,7 @@ public class SwissChartsParser extends ChartsParser {
 	@Override
 	public String coverURL(int year, int position) {
 		String imgSrc = elements.get(position).select("td:eq(1) img").attr("src");
-		return HITPARADE_COVER + firstGroupMatch(imgSrc, LAST_URL_PART);
-	}
-
-	/**
-	 * @return the first result of {@link Matcher#group(int)}. <code>null</code> in all other cases (<code>pattern</code> doesn't match
-	 *         <code>string</code>, no group found)
-	 */
-	private static String firstGroupMatch(String string, Pattern pattern) {
-		Matcher matcher = pattern.matcher(string);
-		if (matcher.find()) {
-			return matcher.group(1);
-		}
-		return null;
+		return HITPARADE_COVER + Util.firstMatch(imgSrc, LAST_URL_PART);
 	}
 
 	@Override
