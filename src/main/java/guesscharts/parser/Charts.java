@@ -1,0 +1,44 @@
+package guesscharts.parser;
+
+import java.util.Calendar;
+
+/**
+ * A charts website. Has lowest/highest position, first/last year and a {@link ChartsParser}.
+ */
+public interface Charts {
+	/**
+	 * @return the lowest available charts position of all years.
+	 */
+	default int lowestPosition() {
+		return 1;
+	}
+
+	/**
+	 * @return the highest available charts position of all years (some years may
+	 * not have a position that high).
+	 */
+	int highestPosition();
+
+	/**
+	 * @return the first year charts data is available (not all years may have
+	 * charts data).
+	 */
+	int firstYear();
+
+	/**
+	 * @return the last year charts data is available (not all years may have
+	 * charts data).
+	 */
+	default int lastYear() {
+		return Calendar.getInstance().get(Calendar.YEAR) - 1;
+	}
+
+	/**
+	 * @return the ChartsParser for these charts
+	 */
+	ChartsParser parser();
+
+	default boolean isConfigured() {
+		return true;
+	}
+}
