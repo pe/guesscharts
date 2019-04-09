@@ -11,7 +11,6 @@ import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
@@ -27,7 +26,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
@@ -260,12 +258,6 @@ public class Gui extends Application {
 
 		VBox solution = new VBox(10, text, image);
 		solution.setPadding(new Insets(10));
-		// The blur effect uses more room than the solution Node provides and blocks the
-		// toolbar. Clip it.
-		ObservableValue<Rectangle> clip = Bindings.createObjectBinding(
-				() -> new Rectangle(solution.getLayoutBounds().getWidth(), solution.getLayoutBounds().getHeight()),
-				solution.layoutBoundsProperty());
-		solution.clipProperty().bind(clip);
 		showSolution.addListener((o, oldState, newState) -> {
 			if (newState) {
 				solution.setEffect(null);
