@@ -36,14 +36,12 @@ public class Spotify {
 
 	private static Properties loadProperties(File fileName) {
 		Properties properties = new Properties();
-		try {
-			try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(fileName))) {
-				properties.load(stream);
-			}
-			return properties;
+		try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(fileName))) {
+			properties.load(stream);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return properties;
 	}
 
 	private static String getAccessToken(String clientId, String clientSecret) {
