@@ -10,7 +10,7 @@ import java.io.IOException;
  * Tries loading random chart entries and retries on errors.
  */
 public class RetryingRandomChartsParser {
-	public static final int MAX_RETRY_ATTEMPTS = 10;
+	private static final int MAX_RETRY_ATTEMPTS = 10;
 
 	private final ChartsParser parser;
 	private final Random random = new Random();
