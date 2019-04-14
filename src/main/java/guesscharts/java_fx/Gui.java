@@ -63,6 +63,7 @@ public class Gui extends Application {
 				super.updateItem(charts, empty);
 				if (empty) {
 					setText(null);
+					setGraphic(null);
 				} else {
 					setText(charts.toString());
 					if (!charts.isConfigured()) {
