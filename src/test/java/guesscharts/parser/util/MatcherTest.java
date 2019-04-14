@@ -25,8 +25,6 @@ class MatcherTest {
 		String notMatchingString = "a";
 		Pattern notMatchingPattern = Pattern.compile("b");
 
-		assertThrows(NoSuchElementException.class, () -> {
-			Matcher.firstMatch(notMatchingString, notMatchingPattern);
-		});
+		assertThrows(NoSuchElementException.class, () -> Matcher.firstMatch(notMatchingString, notMatchingPattern));
 	}
 }
