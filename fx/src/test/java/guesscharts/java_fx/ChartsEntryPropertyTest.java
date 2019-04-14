@@ -11,17 +11,17 @@ class ChartsEntryPropertyTest {
 	@Test
 	void updatesAllEntries() {
 		ChartsEntryProperty chartsEntryProperty = new ChartsEntryProperty();
-		ChartsEntry chartsEntry = new ChartsEntry(1, 2, "artist", "title", "moreDetails", "audio", "cover");
+		ChartsEntry newChartsEntry = new ChartsEntry(1, 2, "artist", "title", "moreDetails", "audio", "cover");
 
-		chartsEntryProperty.update(chartsEntry);
+		chartsEntryProperty.update(newChartsEntry);
 
-		assertThat(chartsEntryProperty.year.get(), equalTo(chartsEntry.year));
-		assertThat(chartsEntryProperty.position.get(), equalTo(chartsEntry.position));
-		assertThat(chartsEntryProperty.artist.get(), equalTo(chartsEntry.artist));
-		assertThat(chartsEntryProperty.title.get(), equalTo(chartsEntry.title));
-		assertThat(chartsEntryProperty.moreDetails.get(), equalTo(chartsEntry.moreDetails));
-		assertThat(chartsEntryProperty.audio.get(), equalTo(chartsEntry.audio));
-		assertThat(chartsEntryProperty.cover.get(), equalTo(chartsEntry.cover));
+		assertThat(chartsEntryProperty.year.get(), equalTo(newChartsEntry.year));
+		assertThat(chartsEntryProperty.position.get(), equalTo(newChartsEntry.position));
+		assertThat(chartsEntryProperty.artist.get(), equalTo(newChartsEntry.artist));
+		assertThat(chartsEntryProperty.title.get(), equalTo(newChartsEntry.title));
+		assertThat(chartsEntryProperty.moreDetails.get(), equalTo(newChartsEntry.moreDetails));
+		assertThat(chartsEntryProperty.audio.get(), equalTo(newChartsEntry.audio));
+		assertThat(chartsEntryProperty.cover.get(), equalTo(newChartsEntry.cover));
 
 	}
 
