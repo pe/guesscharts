@@ -21,6 +21,46 @@ class ChartsSettingsTest {
 		settings = new ChartsSettings();
 	}
 
+	@ParameterizedTest
+	@ValueSource(ints = {0, 1, 2})
+	void yearFromIsLessThanOrEqualToYearTo(int yearFrom) {
+		settings.yearTo.set(1);
+
+		settings.yearFrom.set(yearFrom);
+
+		assertThat(settings.yearFrom.get(), lessThanOrEqualTo(settings.yearTo.get()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = {0, 1, 2})
+	void yearToIsGreaterThanOrEqualToYearFrom(int yearTo) {
+		settings.yearFrom.set(1);
+
+		settings.yearTo.set(yearTo);
+
+		assertThat(settings.yearTo.get(), greaterThanOrEqualTo(settings.yearFrom.get()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = {0, 1, 2})
+	void positionFromIsLessThanOrEqualToYearTo(int positionFrom) {
+		settings.positionTo.set(1);
+
+		settings.positionFrom.set(positionFrom);
+
+		assertThat(settings.positionFrom.get(), lessThanOrEqualTo(settings.positionTo.get()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = {0, 1, 2})
+	void positionToIsGreaterThanOrEqualToYearFrom(int positionTo) {
+		settings.positionFrom.set(1);
+
+		settings.positionTo.set(positionTo);
+
+		assertThat(settings.positionTo.get(), greaterThanOrEqualTo(settings.positionFrom.get()));
+	}
+
 	@Nested
 	class WhenNew {
 
@@ -148,45 +188,5 @@ class ChartsSettingsTest {
 		void positionToIsSet() {
 			assertThat(settings.positionTo.get(), equalTo(anyCharts.highestPosition()));
 		}
-	}
-
-	@ParameterizedTest
-	@ValueSource(ints = {0, 1, 2})
-	void yearFromIsLessThanOrEqualToYearTo(int yearFrom) {
-		settings.yearTo.set(1);
-
-		settings.yearFrom.set(yearFrom);
-
-		assertThat(settings.yearFrom.get(), lessThanOrEqualTo(settings.yearTo.get()));
-	}
-
-	@ParameterizedTest
-	@ValueSource(ints = {0, 1, 2})
-	void yearToIsGreaterThanOrEqualToYearFrom(int yearTo) {
-		settings.yearFrom.set(1);
-
-		settings.yearTo.set(yearTo);
-
-		assertThat(settings.yearTo.get(), greaterThanOrEqualTo(settings.yearFrom.get()));
-	}
-
-	@ParameterizedTest
-	@ValueSource(ints = {0, 1, 2})
-	void positionFromIsLessThanOrEqualToYearTo(int positionFrom) {
-		settings.positionTo.set(1);
-
-		settings.positionFrom.set(positionFrom);
-
-		assertThat(settings.positionFrom.get(), lessThanOrEqualTo(settings.positionTo.get()));
-	}
-
-	@ParameterizedTest
-	@ValueSource(ints = {0, 1, 2})
-	void positionToIsGreaterThanOrEqualToYearFrom(int positionTo) {
-		settings.positionFrom.set(1);
-
-		settings.positionTo.set(positionTo);
-
-		assertThat(settings.positionTo.get(), greaterThanOrEqualTo(settings.positionFrom.get()));
 	}
 }

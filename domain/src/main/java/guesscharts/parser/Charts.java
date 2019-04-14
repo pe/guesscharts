@@ -14,20 +14,17 @@ public interface Charts {
 	}
 
 	/**
-	 * @return the highest available charts position of all years (some years may
-	 * not have a position that high).
+	 * @return the highest available charts position of all years (some years may not have a position that high).
 	 */
 	int highestPosition();
 
 	/**
-	 * @return the first year charts data is available (not all years may have
-	 * charts data).
+	 * @return the first year charts data is available (not all years may have charts data).
 	 */
 	int firstYear();
 
 	/**
-	 * @return the last year charts data is available (not all years may have
-	 * charts data).
+	 * @return the last year charts data is available (not all years may have charts data).
 	 */
 	default int lastYear() {
 		return Calendar.getInstance().get(Calendar.YEAR) - 1;

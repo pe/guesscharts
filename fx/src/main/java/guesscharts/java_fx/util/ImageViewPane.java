@@ -13,17 +13,6 @@ import javafx.scene.layout.Region;
 public class ImageViewPane extends Region {
 	private final ObjectProperty<ImageView> imageViewProperty = new SimpleObjectProperty<>();
 
-	@Override
-	protected void layoutChildren() {
-		ImageView imageView = imageViewProperty.get();
-		if (imageView != null) {
-			imageView.setFitWidth(getWidth());
-			imageView.setFitHeight(getHeight());
-			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
-		}
-		super.layoutChildren();
-	}
-
 	public ImageViewPane(ImageView imageView) {
 		imageViewProperty.addListener((observable, oldIV, newIV) -> {
 			if (oldIV != null) {
@@ -34,5 +23,16 @@ public class ImageViewPane extends Region {
 			}
 		});
 		this.imageViewProperty.set(imageView);
+	}
+
+	@Override
+	protected void layoutChildren() {
+		ImageView imageView = imageViewProperty.get();
+		if (imageView != null) {
+			imageView.setFitWidth(getWidth());
+			imageView.setFitHeight(getHeight());
+			layoutInArea(imageView, 0, 0, getWidth(), getHeight(), 0, HPos.CENTER, VPos.CENTER);
+		}
+		super.layoutChildren();
 	}
 }

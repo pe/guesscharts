@@ -48,12 +48,12 @@ class RetryTest {
 		private final int numberOfCalls;
 		private int callCount = 0;
 
-		static ThrowException forNCalls(int numberOfCalls) {
-			return new ThrowException(numberOfCalls);
-		}
-
 		private ThrowException(int numberOfCalls) {
 			this.numberOfCalls = numberOfCalls;
+		}
+
+		static ThrowException forNCalls(int numberOfCalls) {
+			return new ThrowException(numberOfCalls);
 		}
 
 		@Override

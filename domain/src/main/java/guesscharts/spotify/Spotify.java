@@ -17,8 +17,8 @@ import java.util.Properties;
  * Gets the URL of a Spotify song preview.
  */
 public class Spotify {
-	private final String accessToken;
 	private static final File propertiesFile = new File("spotify.properties");
+	private final String accessToken;
 
 	public Spotify() {
 		Properties properties = loadProperties(propertiesFile);
@@ -28,7 +28,8 @@ public class Spotify {
 	}
 
 	/**
-	 * @return <code>true</code> if the properties file with <code>clientId</code> and <code>clientSecret</code> can be read
+	 * @return <code>true</code> if the properties file with <code>clientId</code> and <code>clientSecret</code> can be
+	 * read
 	 */
 	public static boolean hasPropertiesFile() {
 		return propertiesFile.canRead();

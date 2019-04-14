@@ -1,13 +1,10 @@
 package guesscharts.parser;
 
-import guesscharts.ParsingError;
 import guesscharts.parser.util.Random;
 import guesscharts.parser.util.Retry;
 
-import java.io.IOException;
-
 /**
- * Tries loading random chart entries and retries on errors.
+ * Loads random chart entries. Retries on errors.
  */
 public class RetryingRandomChartsParser {
 	private static final int MAX_RETRY_ATTEMPTS = 10;
@@ -21,8 +18,8 @@ public class RetryingRandomChartsParser {
 	}
 
 	/**
-	 * Tries to load a random {@link ChartsEntry} within the given parameters. Retry
-	 * with different random values if a {@link ParsingError} or {@link IOException} is thrown.
+	 * Tries to load a random {@link ChartsEntry} within the given parameters. Retry with different random values on
+	 * error.
 	 */
 	public ChartsEntry getRandomEntry(int yearFrom, int yearTo, int positionFrom, int positionTo) {
 		return retry.run(() -> {

@@ -12,8 +12,7 @@ public class Matcher {
 	 * <code>patternWithGroup</code>.
 	 *
 	 * @return the first result of {@link java.util.regex.Matcher#group(int)}.
-	 * @throws IndexOutOfBoundsException If there is no capturing group in the
-	 * pattern
+	 * @throws IndexOutOfBoundsException If there is no capturing group in the pattern
 	 * @throws NoSuchElementException If the pattern doesn't match the input.
 	 */
 	public static String firstMatch(String input, Pattern patternWithGroup) {

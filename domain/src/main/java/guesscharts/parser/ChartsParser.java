@@ -13,8 +13,8 @@ public interface ChartsParser {
 	 *
 	 * @param year the year
 	 * @param position the position (1 based)
-	 * @throws ParsingError on missing data for this entry (e.g. this year has
-	 * no such position, this entry has no audio)
+	 * @throws ParsingError on missing data for this entry (e.g. this year has no such position, this entry has no
+	 * audio)
 	 */
 	ChartsEntry getEntry(int year, int position) throws IOException;
 }
