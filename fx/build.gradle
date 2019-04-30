@@ -1,5 +1,6 @@
 plugins {
     id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'org.beryx.jlink' version '2.10.0'
 }
 
 javafx {
@@ -9,4 +10,23 @@ javafx {
 
 dependencies {
     compile project(':domain')
+}
+
+mainClassName = "$moduleName/guesscharts.java_fx.Gui"
+jlink {
+    imageZip = file("$buildDir/image-zip/guesscharts.zip")
+    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+    if(System.getenv('CI')) {
+        ['win', 'linux', 'mac'].each { name ->
+            targetPlatform(name) {
+                jdkHome = System.getenv('JDK_HOME_' + name.toUpperCase())
+                addExtraModulePath(System.getenv('OPENJFX_MODS_' + name.toUpperCase()))
+            }
+        }
+    }
+
+    launcher {
+        name = 'Charts Guesser'
+    }
 }

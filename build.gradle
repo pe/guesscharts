@@ -23,14 +23,3 @@ subprojects {
         useJUnitPlatform()
     }
 }
-
-mainClassName = 'guesscharts.java_fx.Gui'
-
-task customFatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
-    baseName = 'guesscharts'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
