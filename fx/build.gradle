@@ -1,0 +1,12 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.media', 'javafx.graphics']
+    version = '12'
+}
+
+dependencies {
+    compile project(':domain')
+}

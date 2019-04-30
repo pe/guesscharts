@@ -1,6 +1,5 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.7' apply false
 }
 
 subprojects {
@@ -23,32 +22,13 @@ subprojects {
     }
 }
 
-project(':domain') {
-    dependencies {
-        compile 'org.json:json:20180813'
-        compile 'org.jsoup:jsoup:1.11.3'
-    }
-}
-
-project(':fx') {
-    apply plugin: 'org.openjfx.javafxplugin'
-    javafx {
-        modules = [ 'javafx.controls', 'javafx.media', 'javafx.graphics']
-        version = '12'
-    }
-
-    dependencies {
-        compile project(':domain')
-    }
-}
+mainClassName = 'guesscharts.java_fx.Gui'
 
 task customFatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'guesscharts.guesscharts.java_fx.Gui'
+        attributes 'Main-Class': mainClassName
     }
     baseName = 'guesscharts'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
-
-mainClassName = 'guesscharts.java_fx.Gui'
