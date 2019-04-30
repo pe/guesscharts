@@ -14,7 +14,7 @@ dependencies {
 
 mainClassName = "$moduleName/guesscharts.java_fx.Gui"
 jlink {
-    imageZip = file("$buildDir/image-zip/guesscharts.zip")
+    imageName = 'guesscharts'
     options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
     if(System.getenv('CI')) {
@@ -27,6 +27,6 @@ jlink {
     }
 
     launcher {
-        name = 'Charts Guesser'
+        name = 'guesscharts'
     }
 }
