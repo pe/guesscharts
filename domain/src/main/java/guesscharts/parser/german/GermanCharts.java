@@ -5,11 +5,6 @@ import guesscharts.parser.ChartsParser;
 
 public class GermanCharts implements Charts {
 	@Override
-	public int highestPosition() {
-		return 100;
-	}
-
-	@Override
 	public int firstYear() {
 		return 1978;
 	}

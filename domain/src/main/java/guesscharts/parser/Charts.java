@@ -16,7 +16,9 @@ public interface Charts {
 	/**
 	 * @return the highest available charts position of all years (some years may not have a position that high).
 	 */
-	int highestPosition();
+	default int highestPosition() {
+		return 100;
+	}
 
 	/**
 	 * @return the first year charts data is available (not all years may have charts data).
@@ -31,10 +33,13 @@ public interface Charts {
 	}
 
 	/**
-	 * @return the ChartsParser for these charts
+	 * @return the ChartsParser for these charts.
 	 */
 	ChartsParser parser();
 
+	/**
+	 * @return it these charts are set up.
+	 */
 	default boolean isConfigured() {
 		return true;
 	}

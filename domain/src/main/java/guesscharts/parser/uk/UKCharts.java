@@ -6,11 +6,6 @@ import guesscharts.spotify.Spotify;
 
 public class UKCharts implements Charts {
 	@Override
-	public int highestPosition() {
-		return 100;
-	}
-
-	@Override
 	public int firstYear() {
 		return 2005; // Earlier years have no previews
 	}
