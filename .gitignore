@@ -3,3 +3,4 @@
 build/
 out/
 .idea
+/domain/src/main/resources/spotify.properties
