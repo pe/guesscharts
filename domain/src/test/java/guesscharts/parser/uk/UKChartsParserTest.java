@@ -31,7 +31,7 @@ class UKChartsParserTest {
       softly.assertThat(entry.cover).contains("http://ecx.images-amazon.com/images/I/61rDSJy3M7L.jpg");
       softly.assertThat(entry.moreDetails).isEqualToIgnoringCase("http://www.officialcharts.com/search/singles/that's-my-goal/");
       softly.assertThat(entry.audio)
-            .contains("https://p.scdn.co/mp3-preview/4120101e3764b9502f8ae223587a04e4668df1d9?cid=0309a471ed454c91b3d6094cd3d64cd3");
+            .contains("https://p.scdn.co/mp3-preview/ce8efc4f406337fa4a96b17e69fd76ea2b750baa?cid=0309a471ed454c91b3d6094cd3d64cd3");
       softly.assertAll();
    }
 
