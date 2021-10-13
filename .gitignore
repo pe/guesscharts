@@ -2,5 +2,9 @@
 /.gradle/
 build/
 out/
+.project
+.settings/
+.classpath
+bin/
 .idea
 /domain/src/main/resources/spotify.properties
