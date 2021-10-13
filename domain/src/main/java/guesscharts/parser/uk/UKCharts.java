@@ -17,7 +17,7 @@ public class UKCharts implements Charts {
 
 	@Override
 	public boolean isConfigured() {
-		return Spotify.hasPropertiesFile();
+		return Spotify.isConfigured();
 	}
 
 	@Override
