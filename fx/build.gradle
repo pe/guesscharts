@@ -1,9 +1,9 @@
 plugins {
     id 'application'
-    id 'org.beryx.jlink' version '2.23.2'
+    id 'org.beryx.jlink' version '2.24.2'
 }
 
-def openjfxVersion = '15.0.1'
+def openjfxVersion = '17.0.0.1'
 def osName = System.properties['os.name'].toLowerCase()
 def openjfxPlatform = osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
 
@@ -13,7 +13,7 @@ dependencies {
     implementation(group: 'org.openjfx', name: 'javafx-graphics', version: openjfxVersion, classifier: openjfxPlatform)
     implementation(group: 'org.openjfx', name: 'javafx-media', version: openjfxVersion, classifier: openjfxPlatform)
     implementation(group: 'org.openjfx', name: 'javafx-controls', version: openjfxVersion, classifier: openjfxPlatform)
-    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation 'org.assertj:assertj-core:3.21.0'
 }
 

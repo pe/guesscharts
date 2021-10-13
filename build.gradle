@@ -7,6 +7,9 @@ subprojects {
         java {
             modularity.inferModulePath = true
         }
+        dependencies {
+            testImplementation platform('org.junit:junit-bom:5.8.1')
+        }
     }
 
     tasks.withType(Test).configureEach {
