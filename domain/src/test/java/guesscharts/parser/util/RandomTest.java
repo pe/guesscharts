@@ -34,6 +34,8 @@ class RandomTest {
 
    @Test
    void exceptionThrownWhenStartBiggerThanEnd() {
-      assertThrows(IllegalArgumentException.class, () -> new Random().between(2, 1));
+      Random random = new Random();
+      
+      assertThrows(IllegalArgumentException.class, () -> random.between(2, 1));
    }
 }
