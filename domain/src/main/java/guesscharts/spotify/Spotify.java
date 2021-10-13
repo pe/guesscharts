@@ -53,7 +53,7 @@ public class Spotify {
       Objects.requireNonNull(clientSecret);
 
       String authorization = "Basic "
-            + Base64.getEncoder().encodeToString(String.format("%s:%s", clientId, clientSecret).getBytes());
+                             + Base64.getEncoder().encodeToString(String.format("%s:%s", clientId, clientSecret).getBytes());
       try {
          String response = Jsoup.connect("https://accounts.spotify.com/api/token").method(Method.POST)
                .ignoreContentType(true).header("Authorization", authorization)

@@ -1,6 +1,5 @@
 package guesscharts.parser.swiss;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import guesscharts.ParsingError;

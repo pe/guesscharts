@@ -24,6 +24,10 @@ public class SwissChartsParser implements ChartsParser {
 
    private static final Pattern COVER_URL = Pattern.compile("background:url\\('(\\S+)'\\)");
 
+   private static String leftPad(String text, String pad) {
+      return pad.substring(text.length()) + text;
+   }
+
    @Override
    public ChartsEntry entryOf(int year, int position) throws IOException {
       String url = JAHRES_HITPARADE + year;
@@ -62,10 +66,6 @@ public class SwissChartsParser implements ChartsParser {
       String songId = leftPad(Matcher.firstMatch(moreDetails, SONG_ID), "0000000");
       String parentId = songId.substring(0, 3) + "0000";
       return HITPARADE_AUDIO + parentId + "/" + songId + ".mp3";
-   }
-
-   private static String leftPad(String text, String pad) {
-      return pad.substring(text.length()) + text;
    }
 
    private String cover(Element position) {

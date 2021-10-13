@@ -5,7 +5,7 @@ package guesscharts;
  * of an entry is missing.
  */
 public class ParsingError extends RuntimeException {
-	public ParsingError(String message) {
-		super(message);
-	}
+   public ParsingError(String message) {
+      super(message);
+   }
 }

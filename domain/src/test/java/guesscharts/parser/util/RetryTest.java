@@ -40,7 +40,7 @@ class RetryTest {
       int maxAttempts = 2;
       Callable<Void> throwException = ThrowException.forNCalls(2);
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(() -> new Retry(maxAttempts).run(throwException));
+      assertThatExceptionOfType(Exception.class).isThrownBy(() -> new Retry(maxAttempts).run(throwException));
    }
 
    private static class ThrowException implements Callable<Void> {
