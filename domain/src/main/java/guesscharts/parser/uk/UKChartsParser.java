@@ -24,7 +24,7 @@ public class UKChartsParser implements ChartsParser {
 	private final Spotify spotify = new Spotify();
 
 	@Override
-	public ChartsEntry getEntry(int year, int position) throws IOException {
+	public ChartsEntry entryOf(int year, int position) throws IOException {
 		String url = END_OF_YEAR_CHARTS + year + "0110/37501/";
 		Document doc = Jsoup.connect(url).get();
 		Elements positions = doc.select("div.track");

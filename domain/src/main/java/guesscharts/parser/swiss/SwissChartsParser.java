@@ -25,7 +25,7 @@ public class SwissChartsParser implements ChartsParser {
    private static final Pattern COVER_URL = Pattern.compile("background:url\\('(\\S+)'\\)");
 
    @Override
-   public ChartsEntry getEntry(int year, int position) throws IOException {
+   public ChartsEntry entryOf(int year, int position) throws IOException {
       String url = JAHRES_HITPARADE + year;
       Document doc = Jsoup.connect(url).get();
       Elements positions = doc.select("div.chart_title a");

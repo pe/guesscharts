@@ -25,7 +25,7 @@ public class RetryingRandomChartsParser {
 		return retry.run(() -> {
 			int position = random.between(positionFrom, positionTo);
 			int year = random.between(yearFrom, yearTo);
-			return parser.getEntry(year, position);
+			return parser.entryOf(year, position);
 		});
 	}
 }

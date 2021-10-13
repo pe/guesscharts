@@ -27,7 +27,7 @@ public class GermanChartsParser implements ChartsParser {
 	private static final Pattern CSS_URL = Pattern.compile("url\\('(\\S+)'\\)");
 
 	@Override
-	public ChartsEntry getEntry(int year, int position) throws IOException {
+	public ChartsEntry entryOf(int year, int position) throws IOException {
 		String url = JAHRES_CHARTS + year;
 		Document doc = Jsoup.connect(url).get();
 		Elements positions = doc.select("table.chart-table tr");

@@ -21,7 +21,7 @@ class SwissChartsParserTest {
       int year = 1968;
       int position = 1;
 
-      ChartsEntry entry = parser.getEntry(year, position);
+      ChartsEntry entry = parser.entryOf(year, position);
 
       SoftAssertions softly = new SoftAssertions();
       softly.assertThat(entry.year).isEqualTo(year);
@@ -40,7 +40,7 @@ class SwissChartsParserTest {
          int year = 1968;
          int invalidPosition = 11;
 
-         parser.getEntry(year, invalidPosition);
+         parser.entryOf(year, invalidPosition);
       });
    }
 }

@@ -20,7 +20,7 @@ class GermanChartsParserTest {
          int year = 1978;
          int position = 1;
 
-         ChartsEntry entry = parser.getEntry(year, position);
+         ChartsEntry entry = parser.entryOf(year, position);
 
          SoftAssertions softly = new SoftAssertions();
          softly.assertThat(entry.year).isEqualTo(year);
@@ -41,7 +41,7 @@ class GermanChartsParserTest {
          int year = 1978;
          int invalidPosition = 51;
 
-         parser.getEntry(year, invalidPosition);
+         parser.entryOf(year, invalidPosition);
       });
    }
 
@@ -51,7 +51,7 @@ class GermanChartsParserTest {
          int year = 1978;
          int positionWithoutPreview = 10;
 
-         parser.getEntry(year, positionWithoutPreview);
+         parser.entryOf(year, positionWithoutPreview);
       });
    }
 }
