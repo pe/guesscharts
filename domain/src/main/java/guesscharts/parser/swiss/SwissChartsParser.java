@@ -16,64 +16,60 @@ import java.util.regex.Pattern;
  * Parses https://www.hitparade.ch.
  */
 public class SwissChartsParser implements ChartsParser {
-	private static final String HITPARADE = "https://hitparade.ch";
-	private static final String JAHRES_HITPARADE = HITPARADE + "/charts/jahreshitparade/";
-	private static final String HITPARADE_COVER = "https://streamd.hitparade.ch/cdimages/";
-	private static final String HITPARADE_AUDIO = "http://streamd.hitparade.ch/audio/";
+   private static final String HITPARADE = "http://hitparade.ch";
+   private static final String JAHRES_HITPARADE = HITPARADE + "/charts/jahreshitparade/";
 
-	private static final Pattern SONG_ID = Pattern.compile("playAudioIpad\\('(\\d{7})'\\);return false;");
-	private static final Pattern ONCLICK_LINK = Pattern.compile("location.href='(\\S+)';");
-	private static final Pattern LAST_URL_PART = Pattern.compile(".*/(\\S+)");
+   private static final Pattern SONG_ID = Pattern.compile("-(\\d+)$");
+   private static final String HITPARADE_AUDIO = "http://tools2.hitparade.ch/tools/audio/";
 
-	@Override
-	public ChartsEntry getEntry(int year, int position) throws IOException {
-		String url = JAHRES_HITPARADE + year;
-		Document doc = Jsoup.connect(url).get();
-		Elements positions = doc.select("tr.charts[xonclick*=/song/]");
+   private static final Pattern COVER_URL = Pattern.compile("background:url\\('(\\S+)'\\)");
 
-		Element elementAtPosition;
-		try {
-			elementAtPosition = positions.get(position - 1);
-		} catch (IndexOutOfBoundsException e) {
-			throw new ParsingError(String.format("Position %s not available at %s", position, url));
-		}
+   @Override
+   public ChartsEntry getEntry(int year, int position) throws IOException {
+      String url = JAHRES_HITPARADE + year;
+      Document doc = Jsoup.connect(url).get();
+      Elements positions = doc.select("div.chart_title a");
 
-		String artist = artist(elementAtPosition);
-		String title = title(elementAtPosition);
-		String moreDetails = moreDetails(elementAtPosition);
-		String audio = audio(elementAtPosition);
-		String cover = cover(elementAtPosition);
-		return new ChartsEntry(year, position, artist, title, moreDetails, audio, cover);
-	}
+      Element elementAtPosition;
+      try {
+         elementAtPosition = positions.get(position - 1);
+      } catch (IndexOutOfBoundsException e) {
+         throw new ParsingError(String.format("Position %s not available at %s", position, url));
+      }
 
-	private String artist(Element position) {
-		// There are two kinds of structures. Some have a link tag in the table data,
-		// some don't.
-		Element element = position.select("td:eq(2) a").first();
-		if (element == null) {
-			element = position.select("td:eq(2)").first();
-		}
-		return element.ownText();
-	}
+      String artist = artist(elementAtPosition);
+      String title = title(elementAtPosition);
+      String moreDetails = moreDetails(elementAtPosition);
+      String audio = audio(moreDetails);
 
-	private String title(Element position) {
-		return position.select("td:eq(3)").text();
-	}
+      String cover = cover(doc.select("div.chart_cover").get(position - 1));
+      return new ChartsEntry(year, position, artist, title, moreDetails, audio, cover);
+   }
 
-	private String moreDetails(Element position) {
-		String onclick = position.select("td:eq(2)").attr("onclick");
-		return HITPARADE + Matcher.firstMatch(onclick, ONCLICK_LINK).replace("\\", "");
-	}
+   private String artist(Element position) {
+      return position.selectFirst("b").ownText();
+   }
 
-	private String audio(Element position) {
-		String onclick = position.select("td:eq(4) a").attr("onclick");
-		String songId = Matcher.firstMatch(onclick, SONG_ID);
-		String parentId = songId.substring(0, 3) + "0000";
-		return HITPARADE_AUDIO + parentId + "/" + songId + ".mp3";
-	}
+   private String title(Element position) {
+      return position.ownText();
+   }
 
-	private String cover(Element position) {
-		String imgSrc = position.select("td:eq(1) img").attr("src");
-		return HITPARADE_COVER + Matcher.firstMatch(imgSrc, LAST_URL_PART);
-	}
+   private String moreDetails(Element position) {
+      return HITPARADE + position.attr("href");
+   }
+
+   private String audio(String moreDetails) {
+      String songId = leftPad(Matcher.firstMatch(moreDetails, SONG_ID), "0000000");
+      String parentId = songId.substring(0, 3) + "0000";
+      return HITPARADE_AUDIO + parentId + "/" + songId + ".mp3";
+   }
+
+   private static String leftPad(String text, String pad) {
+      return pad.substring(text.length()) + text;
+   }
+
+   private String cover(Element position) {
+      final String coverUrl = Matcher.firstMatch(position.attr("style"), COVER_URL);
+      return coverUrl.replace("https://", "http://").replace("cover/200/", "cover/big/");
+   }
 }
