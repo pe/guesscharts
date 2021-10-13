@@ -1,32 +1,29 @@
 plugins {
-    id 'org.openjfx.javafxplugin' version '0.0.7'
-    id 'org.beryx.jlink' version '2.10.2'
+    id 'application'
+    id 'org.beryx.jlink' version '2.23.2'
 }
 
-javafx {
-    modules = ['javafx.controls', 'javafx.media', 'javafx.graphics']
-    version = '12'
-}
+def openjfxVersion = '15.0.1'
+def osName = System.properties['os.name'].toLowerCase()
+def openjfxPlatform = osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
 
 dependencies {
     implementation project(':domain')
+    implementation(group: 'org.openjfx', name: 'javafx-base', version: openjfxVersion, classifier: openjfxPlatform)
+    implementation(group: 'org.openjfx', name: 'javafx-graphics', version: openjfxVersion, classifier: openjfxPlatform)
+    implementation(group: 'org.openjfx', name: 'javafx-media', version: openjfxVersion, classifier: openjfxPlatform)
+    implementation(group: 'org.openjfx', name: 'javafx-controls', version: openjfxVersion, classifier: openjfxPlatform)
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation 'org.hamcrest:hamcrest-library:2.1'
 }
 
-mainClassName = "$moduleName/guesscharts.java_fx.Gui"
+application {
+    mainModule = 'guesscharts.fx'
+    mainClass = 'guesscharts.java_fx.Gui'
+}
+
 jlink {
     imageName = 'guesscharts'
-    options = ['--bind-services', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-
-    if(System.getenv('CI')) {
-        ['win', 'linux', 'mac'].each { name ->
-            targetPlatform(name) {
-                jdkHome = System.getenv('JDK_HOME_' + name.toUpperCase())
-                addExtraModulePath(System.getenv('OPENJFX_MODS_' + name.toUpperCase()))
-            }
-        }
-    }
-
-    launcher {
-        name = 'guesscharts'
-    }
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher { name = 'guesscharts' }
 }

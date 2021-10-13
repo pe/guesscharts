@@ -1,4 +1,10 @@
+plugins {
+    id 'java-library'
+}
+
 dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation 'org.hamcrest:hamcrest-library:2.1'
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'org.json:json:20201115'
 }
