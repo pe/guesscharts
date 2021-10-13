@@ -1,4 +1,4 @@
 dependencies {
-    compile 'org.json:json:20180813'
-    compile 'org.jsoup:jsoup:1.11.3'
+    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.json:json:20201115'
 }

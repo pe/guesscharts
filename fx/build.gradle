@@ -9,7 +9,7 @@ javafx {
 }
 
 dependencies {
-    compile project(':domain')
+    implementation project(':domain')
 }
 
 mainClassName = "$moduleName/guesscharts.java_fx.Gui"
