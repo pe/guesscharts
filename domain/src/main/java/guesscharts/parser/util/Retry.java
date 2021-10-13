@@ -2,14 +2,11 @@ package guesscharts.parser.util;
 
 import java.util.concurrent.Callable;
 
-public class Retry {
-   private final int maxAttempts;
-
-   public Retry(int maxAttempts) {
+public record Retry(int maxAttempts) {
+   public Retry {
       if (maxAttempts < 1) {
          throw new IllegalArgumentException();
       }
-      this.maxAttempts = maxAttempts;
    }
 
    public <V> V run(Callable<V> task) {
