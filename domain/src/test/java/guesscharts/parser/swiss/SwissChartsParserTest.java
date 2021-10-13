@@ -1,62 +1,46 @@
 package guesscharts.parser.swiss;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import guesscharts.ParsingError;
 import guesscharts.parser.ChartsEntry;
 import guesscharts.parser.ChartsParser;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.io.IOException;
 
 @Tag("integration")
 class SwissChartsParserTest {
-	private final ChartsParser parser = new SwissChartsParser();
+   private final ChartsParser parser = new SwissChartsParser();
 
-	@Test
-	void returnsCorrectEntry() {
-		assertDoesNotThrow(() -> {
-			int year = 1968;
-			int position = 1;
+   @Test
+   void returnsCorrectEntry() throws IOException {
+      int year = 1968;
+      int position = 1;
 
-			ChartsEntry entry = parser.getEntry(year, position);
+      ChartsEntry entry = parser.getEntry(year, position);
 
-			assertThat(entry.year, equalTo(year));
-			assertThat(entry.position, equalTo(position));
-			assertThat(entry.artist, equalToIgnoringCase("ROLAND W."));
-			assertThat(entry.title, equalToIgnoringCase("MONJA"));
-			assertThat(entry.cover,
-					equalToIgnoringCase("https://streamd.hitparade.ch/cdimages/roland_w-monja_s.jpg"));
-			assertThat(entry.moreDetails, equalToIgnoringCase("https://hitparade.ch/song/Roland-W./Monja-1"));
-			assertThat(entry.audio, equalToIgnoringCase("http://streamd.hitparade.ch/audio/0000000/0000001.mp3"));
-		});
-	}
+      SoftAssertions softly = new SoftAssertions();
+      softly.assertThat(entry.year).isEqualTo(year);
+      softly.assertThat(entry.position).isEqualTo(position);
+      softly.assertThat(entry.artist).isEqualToIgnoringCase("ROLAND W.");
+      softly.assertThat(entry.title).isEqualToIgnoringCase("MONJA");
+      softly.assertThat(entry.cover).isEqualToIgnoringCase("http://media.hitparade.ch/cover/big/roland_w-monja_s.jpg");
+      softly.assertThat(entry.moreDetails).isEqualToIgnoringCase("http://hitparade.ch/song/Roland-W./Monja-1");
+      softly.assertThat(entry.audio).isEqualToIgnoringCase("http://tools2.hitparade.ch/tools/audio/0000000/0000001.mp3");
+      softly.assertAll();
+   }
 
-	/**
-	 * @see SwissChartsParser#artist(org.jsoup.nodes.Element)
-	 */
-	@Test
-	void returnsCorrectArtist() {
-		assertDoesNotThrow(() -> {
-			int year = 2017;
-			int position = 1;
+   @Test
+   void throwsExceptionBecausePositionIsNotAvailable() {
+      assertThatExceptionOfType(ParsingError.class).isThrownBy(() -> {
+         int year = 1968;
+         int invalidPosition = 11;
 
-			ChartsEntry entry = parser.getEntry(year, position);
-
-			assertThat(entry.artist, equalToIgnoringCase("Ed Sheeran"));
-		});
-	}
-
-	@Test
-	void throwsExceptionBecausePositionIsNotAvailable() {
-		assertThrows(ParsingError.class, () -> {
-			int year = 1968;
-			int invalidPosition = 11;
-
-			parser.getEntry(year, invalidPosition);
-		});
-	}
+         parser.getEntry(year, invalidPosition);
+      });
+   }
 }

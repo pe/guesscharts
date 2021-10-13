@@ -1,10 +1,10 @@
 package guesscharts.java_fx;
 
-import guesscharts.parser.ChartsEntry;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import guesscharts.parser.ChartsEntry;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
 class ChartsEntryPropertyTest {
 
@@ -15,14 +15,14 @@ class ChartsEntryPropertyTest {
 
 		chartsEntryProperty.update(newChartsEntry);
 
-		assertThat(chartsEntryProperty.year.get(), equalTo(newChartsEntry.year));
-		assertThat(chartsEntryProperty.position.get(), equalTo(newChartsEntry.position));
-		assertThat(chartsEntryProperty.artist.get(), equalTo(newChartsEntry.artist));
-		assertThat(chartsEntryProperty.title.get(), equalTo(newChartsEntry.title));
-		assertThat(chartsEntryProperty.moreDetails.get(), equalTo(newChartsEntry.moreDetails));
-		assertThat(chartsEntryProperty.audio.get(), equalTo(newChartsEntry.audio));
-		assertThat(chartsEntryProperty.cover.get(), equalTo(newChartsEntry.cover));
-
+		SoftAssertions softly = new SoftAssertions();
+		softly.assertThat(chartsEntryProperty.year.get()).isEqualTo(newChartsEntry.year);
+		softly.assertThat(chartsEntryProperty.position.get()).isEqualTo(newChartsEntry.position);
+		softly.assertThat(chartsEntryProperty.artist.get()).isEqualTo(newChartsEntry.artist);
+		softly.assertThat(chartsEntryProperty.title.get()).isEqualTo(newChartsEntry.title);
+		softly.assertThat(chartsEntryProperty.moreDetails.get()).isEqualTo(newChartsEntry.moreDetails);
+		softly.assertThat(chartsEntryProperty.audio.get()).isEqualTo(newChartsEntry.audio);
+		softly.assertThat(chartsEntryProperty.cover.get()).isEqualTo(newChartsEntry.cover);
+		softly.assertAll();
 	}
-
 }

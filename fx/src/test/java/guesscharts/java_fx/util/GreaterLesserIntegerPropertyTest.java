@@ -1,14 +1,12 @@
 package guesscharts.java_fx.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
 class GreaterLesserIntegerPropertyTest {
 	private IntegerProperty other;
@@ -27,7 +25,7 @@ class GreaterLesserIntegerPropertyTest {
 
 		other.set(value);
 
-		assertThat(testee.get(), lessThanOrEqualTo(other.get()));
+		assertThat(testee.get()).isLessThanOrEqualTo(other.get());
 	}
 
 	@ParameterizedTest
@@ -37,6 +35,6 @@ class GreaterLesserIntegerPropertyTest {
 
 		other.set(value);
 
-		assertThat(testee.get(), greaterThanOrEqualTo(value));
+		assertThat(testee.get()).isGreaterThanOrEqualTo(value);
 	}
 }

@@ -1,5 +1,7 @@
 package guesscharts.java_fx;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import guesscharts.parser.Charts;
 import guesscharts.parser.ChartsParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,11 +9,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 class ChartsSettingsTest {
 	private ChartsSettings settings;
@@ -28,7 +25,7 @@ class ChartsSettingsTest {
 
 		settings.yearFrom.set(yearFrom);
 
-		assertThat(settings.yearFrom.get(), lessThanOrEqualTo(settings.yearTo.get()));
+		assertThat(settings.yearFrom.get()).isLessThanOrEqualTo(settings.yearTo.get());
 	}
 
 	@ParameterizedTest
@@ -38,7 +35,7 @@ class ChartsSettingsTest {
 
 		settings.yearTo.set(yearTo);
 
-		assertThat(settings.yearTo.get(), greaterThanOrEqualTo(settings.yearFrom.get()));
+		assertThat(settings.yearTo.get()).isGreaterThanOrEqualTo(settings.yearFrom.get());
 	}
 
 	@ParameterizedTest
@@ -48,7 +45,7 @@ class ChartsSettingsTest {
 
 		settings.positionFrom.set(positionFrom);
 
-		assertThat(settings.positionFrom.get(), lessThanOrEqualTo(settings.positionTo.get()));
+		assertThat(settings.positionFrom.get()).isLessThanOrEqualTo(settings.positionTo.get());
 	}
 
 	@ParameterizedTest
@@ -58,55 +55,54 @@ class ChartsSettingsTest {
 
 		settings.positionTo.set(positionTo);
 
-		assertThat(settings.positionTo.get(), greaterThanOrEqualTo(settings.positionFrom.get()));
+		assertThat(settings.positionTo.get()).isGreaterThanOrEqualTo(settings.positionFrom.get());
 	}
 
 	@Nested
 	class WhenNew {
-
 		@Test
 		void chartsIsNull() {
-			assertThat(settings.charts.get(), nullValue());
+			assertThat(settings.charts.get()).isNull();
 		}
 
 		@Test
 		void minYearIs0() {
-			assertThat(settings.minYear.get(), equalTo(0));
+			assertThat(settings.minYear.get()).isZero();
 		}
 
 		@Test
 		void maxYearIs0() {
-			assertThat(settings.maxYear.get(), equalTo(0));
+			assertThat(settings.maxYear.get()).isZero();
 		}
 
 		@Test
 		void yearFromIs0() {
-			assertThat(settings.yearFrom.get(), equalTo(0));
+			assertThat(settings.yearFrom.get()).isZero();
 		}
 
 		@Test
 		void yearToIs0() {
-			assertThat(settings.yearTo.get(), equalTo(0));
+			assertThat(settings.yearTo.get()).isZero();
 		}
 
 		@Test
 		void minPositionIs0() {
-			assertThat(settings.minPosition.get(), equalTo(0));
+			assertThat(settings.minPosition.get()).isZero();
 		}
 
 		@Test
 		void maxPositionIs0() {
-			assertThat(settings.maxPosition.get(), equalTo(0));
+			assertThat(settings.maxPosition.get()).isZero();
 		}
 
 		@Test
 		void positionFromIs0() {
-			assertThat(settings.positionFrom.get(), equalTo(0));
+			assertThat(settings.positionFrom.get()).isZero();
 		}
 
 		@Test
 		void positionToIs0() {
-			assertThat(settings.positionTo.get(), equalTo(0));
+			assertThat(settings.positionTo.get()).isZero();
 		}
 	}
 
@@ -146,47 +142,47 @@ class ChartsSettingsTest {
 
 		@Test
 		void chartsIsSet() {
-			assertThat(settings.charts.get(), is(anyCharts));
+			assertThat(settings.charts.get()).isEqualTo(anyCharts);
 		}
 
 		@Test
 		void minYearIsSet() {
-			assertThat(settings.minYear.get(), equalTo(anyCharts.firstYear()));
+			assertThat(settings.minYear.get()).isEqualTo(anyCharts.firstYear());
 		}
 
 		@Test
 		void maxYearIsSet() {
-			assertThat(settings.maxYear.get(), equalTo(anyCharts.lastYear()));
+			assertThat(settings.maxYear.get()).isEqualTo(anyCharts.lastYear());
 		}
 
 		@Test
 		void yearFromIsSet() {
-			assertThat(settings.yearFrom.get(), equalTo(anyCharts.firstYear()));
+			assertThat(settings.yearFrom.get()).isEqualTo(anyCharts.firstYear());
 		}
 
 		@Test
 		void yearToIsSet() {
-			assertThat(settings.yearTo.get(), equalTo(anyCharts.lastYear()));
+			assertThat(settings.yearTo.get()).isEqualTo(anyCharts.lastYear());
 		}
 
 		@Test
 		void minPositionIsSet() {
-			assertThat(settings.minPosition.get(), equalTo(anyCharts.lowestPosition()));
+			assertThat(settings.minPosition.get()).isEqualTo(anyCharts.lowestPosition());
 		}
 
 		@Test
 		void maxPositionIsSet() {
-			assertThat(settings.maxPosition.get(), equalTo(anyCharts.highestPosition()));
+			assertThat(settings.maxPosition.get()).isEqualTo(anyCharts.highestPosition());
 		}
 
 		@Test
 		void positionFromIsSet() {
-			assertThat(settings.positionFrom.get(), equalTo(anyCharts.lowestPosition()));
+			assertThat(settings.positionFrom.get()).isEqualTo(anyCharts.lowestPosition());
 		}
 
 		@Test
 		void positionToIsSet() {
-			assertThat(settings.positionTo.get(), equalTo(anyCharts.highestPosition()));
+			assertThat(settings.positionTo.get()).isEqualTo(anyCharts.highestPosition());
 		}
 	}
 }

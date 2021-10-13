@@ -1,11 +1,10 @@
 package guesscharts.parser.util;
 
-import org.junit.jupiter.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 class RandomTest {
 	// Always returns 1
@@ -15,14 +14,14 @@ class RandomTest {
 	void randomValueBetween1And1Is1() {
 		int random = new Random().between(1, 1);
 
-		assertThat(random, equalTo(1));
+		assertThat(random).isEqualTo(1);
 	}
 
 	@Test
 	void randomValueBetween0And1Is1() {
 		int random = new Random(RNG).between(0, 1);
 
-		assertThat(random, equalTo(1));
+		assertThat(random).isEqualTo(1);
 	}
 
 	@Test
@@ -30,11 +29,11 @@ class RandomTest {
 	void randomValueBetweenNeg2AndNeg1IsNeg1() {
 		int random = new Random(RNG).between(-2, -1);
 
-		assertThat(random, equalTo(-1));
+		assertThat(random).isEqualTo(-1);
 	}
 
 	@Test
 	void exceptionThrownWhenStartBiggerThanEnd() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> new Random().between(2, 1));
+		assertThrows(IllegalArgumentException.class, () -> new Random().between(2, 1));
 	}
 }
