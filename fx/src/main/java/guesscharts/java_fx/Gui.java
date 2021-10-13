@@ -53,6 +53,8 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
@@ -297,7 +299,13 @@ public class Gui extends Application {
       ImageView image = new ImageView();
       image.setSmooth(true);
       image.setPreserveRatio(true);
-      cover.addListener((o, oldValue, newValue) -> image.setImage(new Image(newValue)));
+      cover.addListener((o, oldValue, newValue) -> {
+         try {
+            image.setImage(new Image(new URL(newValue).openStream()));
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
+      });
       return new ImageViewPane(image);
    }
 
