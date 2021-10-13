@@ -23,13 +23,13 @@ class SwissChartsParserTest {
       ChartsEntry entry = parser.entryOf(year, position);
 
       SoftAssertions softly = new SoftAssertions();
-      softly.assertThat(entry.year).isEqualTo(year);
-      softly.assertThat(entry.position).isEqualTo(position);
-      softly.assertThat(entry.artist).isEqualToIgnoringCase("ROLAND W.");
-      softly.assertThat(entry.title).isEqualToIgnoringCase("MONJA");
-      softly.assertThat(entry.cover).isEqualToIgnoringCase("http://media.hitparade.ch/cover/big/roland_w-monja_s.jpg");
-      softly.assertThat(entry.moreDetails).isEqualToIgnoringCase("http://hitparade.ch/song/Roland-W./Monja-1");
-      softly.assertThat(entry.audio).isEqualToIgnoringCase("http://tools2.hitparade.ch/tools/audio/0000000/0000001.mp3");
+      softly.assertThat(entry.year()).isEqualTo(year);
+      softly.assertThat(entry.position()).isEqualTo(position);
+      softly.assertThat(entry.artist()).isEqualToIgnoringCase("ROLAND W.");
+      softly.assertThat(entry.title()).isEqualToIgnoringCase("MONJA");
+      softly.assertThat(entry.cover()).isEqualToIgnoringCase("http://media.hitparade.ch/cover/big/roland_w-monja_s.jpg");
+      softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("http://hitparade.ch/song/Roland-W./Monja-1");
+      softly.assertThat(entry.audio()).isEqualToIgnoringCase("http://tools2.hitparade.ch/tools/audio/0000000/0000001.mp3");
       softly.assertAll();
    }
 

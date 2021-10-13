@@ -23,14 +23,14 @@ class GermanChartsParserTest {
          ChartsEntry entry = parser.entryOf(year, position);
 
          SoftAssertions softly = new SoftAssertions();
-         softly.assertThat(entry.year).isEqualTo(year);
-         softly.assertThat(entry.position).isEqualTo(position);
-         softly.assertThat(entry.artist).isEqualToIgnoringCase("VADER ABRAHAM");
-         softly.assertThat(entry.title).isEqualToIgnoringCase("DAS LIED DER SCHLÜMPFE");
-         softly.assertThat(entry.cover)
+         softly.assertThat(entry.year()).isEqualTo(year);
+         softly.assertThat(entry.position()).isEqualTo(position);
+         softly.assertThat(entry.artist()).isEqualToIgnoringCase("VADER ABRAHAM");
+         softly.assertThat(entry.title()).isEqualToIgnoringCase("DAS LIED DER SCHLÜMPFE");
+         softly.assertThat(entry.cover())
                .isEqualToIgnoringCase("https://www.offiziellecharts.de/templates/gfktemplate/images/cover/501_s.jpg");
-         softly.assertThat(entry.moreDetails).isEqualToIgnoringCase("https://www.offiziellecharts.de/titel-details-501");
-         softly.assertThat(entry.audio).isEqualToIgnoringCase("https://www.offiziellecharts.de/audio/mp3/49112.mp3");
+         softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("https://www.offiziellecharts.de/titel-details-501");
+         softly.assertThat(entry.audio()).isEqualToIgnoringCase("https://www.offiziellecharts.de/audio/mp3/49112.mp3");
          softly.assertAll();
       });
    }

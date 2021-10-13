@@ -23,13 +23,13 @@ class UKChartsParserTest {
       ChartsEntry entry = parser.entryOf(year, position);
 
       SoftAssertions softly = new SoftAssertions();
-      softly.assertThat(entry.year).isEqualTo(year);
-      softly.assertThat(entry.position).isEqualTo(position);
-      softly.assertThat(entry.artist).isEqualToIgnoringCase("SHAYNE WARD");
-      softly.assertThat(entry.title).isEqualToIgnoringCase("THAT'S MY GOAL");
-      softly.assertThat(entry.cover).contains("http://ecx.images-amazon.com/images/I/61rDSJy3M7L.jpg");
-      softly.assertThat(entry.moreDetails).isEqualToIgnoringCase("http://www.officialcharts.com/search/singles/that's-my-goal/");
-      softly.assertThat(entry.audio)
+      softly.assertThat(entry.year()).isEqualTo(year);
+      softly.assertThat(entry.position()).isEqualTo(position);
+      softly.assertThat(entry.artist()).isEqualToIgnoringCase("SHAYNE WARD");
+      softly.assertThat(entry.title()).isEqualToIgnoringCase("THAT'S MY GOAL");
+      softly.assertThat(entry.cover()).contains("http://ecx.images-amazon.com/images/I/61rDSJy3M7L.jpg");
+      softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("http://www.officialcharts.com/search/singles/that's-my-goal/");
+      softly.assertThat(entry.audio())
             .contains("https://p.scdn.co/mp3-preview/ce8efc4f406337fa4a96b17e69fd76ea2b750baa?cid=0309a471ed454c91b3d6094cd3d64cd3");
       softly.assertAll();
    }

@@ -16,12 +16,12 @@ class ChartsEntryProperty {
    public final StringProperty cover = new SimpleStringProperty();
 
    public void update(ChartsEntry chartsEntry) {
-      year.set(chartsEntry.year);
-      position.set(chartsEntry.position);
-      artist.set(chartsEntry.artist);
-      title.set(chartsEntry.title);
-      moreDetails.set(chartsEntry.moreDetails);
-      audio.set(chartsEntry.audio);
-      cover.set(chartsEntry.cover);
+      year.set(chartsEntry.year());
+      position.set(chartsEntry.position());
+      artist.set(chartsEntry.artist());
+      title.set(chartsEntry.title());
+      moreDetails.set(chartsEntry.moreDetails());
+      audio.set(chartsEntry.audio());
+      cover.set(chartsEntry.cover());
    }
 }
