@@ -115,16 +115,6 @@ class ChartsSettingsTest {
          }
 
          @Override
-         public int lowestPosition() {
-            return 1;
-         }
-
-         @Override
-         public int highestPosition() {
-            return 2;
-         }
-
-         @Override
          public int firstYear() {
             return 3;
          }

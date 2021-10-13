@@ -19,7 +19,7 @@ public class Retry {
             return task.call();
          } catch (Exception e) {
             if (attemptCount < maxAttempts) {
-               System.out.println(e.toString() + " retrying...");
+               System.out.println(e + " retrying...");
             } else {
                throw new RuntimeException(e);
             }
