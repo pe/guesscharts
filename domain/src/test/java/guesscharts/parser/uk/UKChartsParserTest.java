@@ -8,10 +8,12 @@ import guesscharts.parser.ChartsParser;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
 import java.io.IOException;
 
 @Tag("integration")
+@EnabledIf("guesscharts.spotify.Spotify#isConfigured")
 class UKChartsParserTest {
    private final ChartsParser parser = new UKChartsParser();
 

@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
 @Tag("integration")
+@EnabledIf("guesscharts.spotify.Spotify#isConfigured")
 class SpotifyTest {
    @Test
    void testPreview() {
