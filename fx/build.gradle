@@ -3,7 +3,7 @@ plugins {
     id 'org.beryx.jlink' version '2.24.2'
 }
 
-def openjfxVersion = '17.0.0.1'
+def openjfxVersion = '18'
 def osName = System.properties['os.name'].toLowerCase()
 def arch = System.properties['os.arch'].toLowerCase()
 def openjfxPlatform = osName.contains('mac') & arch.contains("aarch64") ? 'mac-aarch64' : osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
