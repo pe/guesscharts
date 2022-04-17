@@ -5,7 +5,8 @@ plugins {
 
 def openjfxVersion = '17.0.0.1'
 def osName = System.properties['os.name'].toLowerCase()
-def openjfxPlatform = osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
+def arch = System.properties['os.arch'].toLowerCase()
+def openjfxPlatform = osName.contains('mac') & arch.contains("aarch64") ? 'mac-aarch64' : osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
 
 dependencies {
     implementation project(':domain')
