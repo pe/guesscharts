@@ -14,7 +14,7 @@ dependencies {
     implementation(group: 'org.openjfx', name: 'javafx-media', version: openjfxVersion, classifier: openjfxPlatform)
     implementation(group: 'org.openjfx', name: 'javafx-controls', version: openjfxVersion, classifier: openjfxPlatform)
     testImplementation('org.junit.jupiter:junit-jupiter')
-    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
 }
 
 application {
