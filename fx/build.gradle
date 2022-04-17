@@ -24,7 +24,12 @@ application {
 }
 
 jlink {
-    imageName = 'guesscharts'
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-    launcher { name = 'guesscharts' }
+    jpackage {
+        imageName = "Guesscharts"
+        installerName = "Guesscharts"
+        imageOptions = ['--mac-package-identifier', 'guesscharts']
+        def imgType = osName.contains('win') ? 'ico' : osName.contains('mac') ? 'icns' : 'png'
+        icon = "src/main/resources/icon.$imgType"
+    }
 }
