@@ -21,6 +21,9 @@ dependencies {
 application {
     mainModule = 'guesscharts.fx'
     mainClass = 'guesscharts.java_fx.Gui'
+    if (osName.contains('mac')) {
+        applicationDefaultJvmArgs = ["-Dsun.java2d.metal=true"]
+    }
 }
 
 jlink {
