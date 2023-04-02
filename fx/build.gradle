@@ -1,9 +1,9 @@
 plugins {
     id 'application'
-    id 'org.beryx.jlink' version '2.25.0'
+    id 'org.beryx.jlink' version '2.26.0'
 }
 
-def openjfxVersion = '18'
+def openjfxVersion = '19.0.2.1'
 def osName = System.properties['os.name'].toLowerCase()
 def arch = System.properties['os.arch'].toLowerCase()
 def openjfxPlatform = osName.contains('mac') & arch.contains("aarch64") ? 'mac-aarch64' : osName.contains('mac') ? 'mac' : osName.contains('win') ? 'win' : osName.contains('linux') ? 'linux' : null
@@ -15,15 +15,12 @@ dependencies {
     implementation(group: 'org.openjfx', name: 'javafx-media', version: openjfxVersion, classifier: openjfxPlatform)
     implementation(group: 'org.openjfx', name: 'javafx-controls', version: openjfxVersion, classifier: openjfxPlatform)
     testImplementation('org.junit.jupiter:junit-jupiter')
-    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation('org.assertj:assertj-core')
 }
 
 application {
     mainModule = 'guesscharts.fx'
     mainClass = 'guesscharts.java_fx.Gui'
-    if (osName.contains('mac')) {
-        applicationDefaultJvmArgs = ["-Dsun.java2d.metal=true"]
-    }
 }
 
 jlink {
