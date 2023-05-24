@@ -33,3 +33,10 @@ jlink {
         icon = "src/main/resources/icon.$imgType"
     }
 }
+
+distributions {
+    main {
+        distributionBaseName = 'guesscharts'
+    }
+}
+
