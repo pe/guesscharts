@@ -1,5 +1,13 @@
 package guesscharts.java_fx;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import guesscharts.java_fx.util.ImageViewPane;
 import guesscharts.parser.Charts;
 import guesscharts.parser.ChartsEntry;
@@ -35,7 +43,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -53,26 +60,13 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class Gui extends Application {
-   private static final BoxBlur BLUR_AND_MONOCHROME = new BoxBlur(50, 50, 3);
-   private static final ColorAdjust MONOCHROME = new ColorAdjust(0, -1.0, 0, 0);
+   private static final BoxBlur BLUR = new BoxBlur(200, 200, 5);
    private static final List<Charts> CHARTS = List.of(new SwissCharts(), new GermanCharts(), new UKCharts());
    private static final List<Number> YEARS = IntStream.rangeClosed(1900, Calendar.getInstance().get(Calendar.YEAR))
          .boxed().collect(Collectors.toList());
    private static final List<Number> POSITIONS = List.of(1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500,
          1000);
-
-   static {
-      BLUR_AND_MONOCHROME.setInput(MONOCHROME);
-   }
 
    private final ChartsSettings settings = new ChartsSettings();
    private final DoubleProperty volume = new SimpleDoubleProperty();
@@ -287,7 +281,7 @@ public class Gui extends Application {
             solution.setEffect(null);
             solution.setDisable(false);
          } else {
-            solution.setEffect(BLUR_AND_MONOCHROME);
+            solution.setEffect(BLUR);
             solution.setDisable(true);
          }
       });
