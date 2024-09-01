@@ -1,7 +1,7 @@
 package guesscharts.java_fx;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
@@ -121,7 +121,7 @@ public class Gui extends Application {
 
    @Override
    public void start(Stage stage) {
-      settings.charts.set(CHARTS.get(0));
+      settings.charts.set(CHARTS.getFirst());
 
       ChartsEntryProperty chartsEntry = new ChartsEntryProperty();
 
@@ -295,7 +295,7 @@ public class Gui extends Application {
       image.setPreserveRatio(true);
       cover.addListener((o, oldValue, newValue) -> {
          try {
-            image.setImage(new Image(new URL(newValue).openStream()));
+            image.setImage(new Image(URI.create(newValue).toURL().openStream()));
          } catch (IOException e) {
             e.printStackTrace();
          }

@@ -1,5 +1,4 @@
 module guesscharts.domain {
-   requires jdk.crypto.ec; // Needed for jlinked build
    requires org.json;
    requires org.jsoup;
 
