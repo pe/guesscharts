@@ -1,16 +1,17 @@
 package guesscharts.parser.swiss;
 
-import guesscharts.ParsingError;
-import guesscharts.parser.ChartsEntry;
-import guesscharts.parser.ChartsParser;
-import guesscharts.parser.util.Matcher;
+import java.io.IOException;
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
+import guesscharts.ParsingError;
+import guesscharts.parser.ChartsEntry;
+import guesscharts.parser.ChartsParser;
+import guesscharts.parser.util.Matcher;
 
 /**
  * Parses https://www.hitparade.ch.
@@ -20,7 +21,7 @@ public class SwissChartsParser implements ChartsParser {
    private static final String JAHRES_HITPARADE = HITPARADE + "/charts/jahreshitparade/";
 
    private static final Pattern SONG_ID = Pattern.compile("-(\\d+)$");
-   private static final String HITPARADE_AUDIO = "http://tools2.hitparade.ch/tools/audio/";
+   private static final String HITPARADE_AUDIO = "http://streamd.hitparade.ch/audio/";
 
    private static final Pattern COVER_URL = Pattern.compile("background:url\\('(\\S+)'\\)");
 

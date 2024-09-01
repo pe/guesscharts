@@ -2,14 +2,15 @@ package guesscharts.parser.swiss;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import guesscharts.ParsingError;
-import guesscharts.parser.ChartsEntry;
-import guesscharts.parser.ChartsParser;
+import java.io.IOException;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import guesscharts.ParsingError;
+import guesscharts.parser.ChartsEntry;
+import guesscharts.parser.ChartsParser;
 
 @Tag("integration")
 class SwissChartsParserTest {
@@ -29,7 +30,7 @@ class SwissChartsParserTest {
       softly.assertThat(entry.title()).isEqualToIgnoringCase("MONJA");
       softly.assertThat(entry.cover()).isEqualToIgnoringCase("http://media.hitparade.ch/cover/big/roland_w-monja_s.jpg");
       softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("http://hitparade.ch/song/Roland-W./Monja-1");
-      softly.assertThat(entry.audio()).isEqualToIgnoringCase("http://tools2.hitparade.ch/tools/audio/0000000/0000001.mp3");
+      softly.assertThat(entry.audio()).isEqualToIgnoringCase("http://streamd.hitparade.ch/audio/0000000/0000001.mp3");
       softly.assertAll();
    }
 

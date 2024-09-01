@@ -3,12 +3,13 @@ package guesscharts.parser.german;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-import guesscharts.ParsingError;
-import guesscharts.parser.ChartsEntry;
-import guesscharts.parser.ChartsParser;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import guesscharts.ParsingError;
+import guesscharts.parser.ChartsEntry;
+import guesscharts.parser.ChartsParser;
 
 @Tag("integration")
 class GermanChartsParserTest {
@@ -29,7 +30,7 @@ class GermanChartsParserTest {
          softly.assertThat(entry.title()).isEqualToIgnoringCase("DAS LIED DER SCHLÜMPFE");
          softly.assertThat(entry.cover())
                .isEqualToIgnoringCase("https://www.offiziellecharts.de/templates/gfktemplate/images/cover/501_s.jpg");
-         softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("https://www.offiziellecharts.de/titel-details-501");
+         softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("https://www.offiziellecharts.de/charts/titel-details-501");
          softly.assertThat(entry.audio()).isEqualToIgnoringCase("https://www.offiziellecharts.de/audio/mp3/49112.mp3");
          softly.assertAll();
       });

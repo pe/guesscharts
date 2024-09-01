@@ -2,15 +2,16 @@ package guesscharts.parser.uk;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import guesscharts.ParsingError;
-import guesscharts.parser.ChartsEntry;
-import guesscharts.parser.ChartsParser;
+import java.io.IOException;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
-import java.io.IOException;
+import guesscharts.ParsingError;
+import guesscharts.parser.ChartsEntry;
+import guesscharts.parser.ChartsParser;
 
 @Tag("integration")
 @EnabledIf("guesscharts.spotify.Spotify#isConfigured")
@@ -29,9 +30,9 @@ class UKChartsParserTest {
       softly.assertThat(entry.position()).isEqualTo(position);
       softly.assertThat(entry.artist()).isEqualToIgnoringCase("SHAYNE WARD");
       softly.assertThat(entry.title()).isEqualToIgnoringCase("THAT'S MY GOAL");
-      softly.assertThat(entry.cover()).contains("http://ecx.images-amazon.com/images/I/61rDSJy3M7L.jpg");
-      softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("http://www.officialcharts.com/search/singles/that's-my-goal/");
-      softly.assertThat(entry.audio()).contains("https://p.scdn.co/mp3-preview/").contains("?cid=0309a471ed454c91b3d6094cd3d64cd3");
+      softly.assertThat(entry.cover()).contains("https://m.media-amazon.com/images/I/511lj9QcmBL._SL500_.jpg");
+      softly.assertThat(entry.moreDetails()).isEqualToIgnoringCase("http://www.officialcharts.com/songs/shayne-ward-thats-my-goal/");
+      softly.assertThat(entry.audio()).contains("https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview");
       softly.assertAll();
    }
 

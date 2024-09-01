@@ -2,7 +2,6 @@ package guesscharts.parser.uk;
 
 import guesscharts.parser.Charts;
 import guesscharts.parser.ChartsParser;
-import guesscharts.spotify.Spotify;
 
 public class UKCharts implements Charts {
    @Override
@@ -13,11 +12,6 @@ public class UKCharts implements Charts {
    @Override
    public ChartsParser parser() {
       return new UKChartsParser();
-   }
-
-   @Override
-   public boolean isConfigured() {
-      return Spotify.isConfigured();
    }
 
    @Override
