@@ -1,7 +1,6 @@
 package guesscharts.java_fx;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import guesscharts.parser.Charts;
 import guesscharts.parser.ChartsParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +10,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ChartsSettingsTest {
+    final Charts anyCharts = new MockCharts(3, 4);
+
     private ChartsSettings settings;
 
     @BeforeEach
     void createNewSettings() {
-        settings = new ChartsSettings();
+        settings = new ChartsSettings(anyCharts);
     }
 
     @ParameterizedTest
@@ -61,76 +62,6 @@ class ChartsSettingsTest {
     @Nested
     class WhenNew {
         @Test
-        void chartsIsNull() {
-            assertThat(settings.charts.get()).isNull();
-        }
-
-        @Test
-        void minYearIs0() {
-            assertThat(settings.minYear.get()).isZero();
-        }
-
-        @Test
-        void maxYearIs0() {
-            assertThat(settings.maxYear.get()).isZero();
-        }
-
-        @Test
-        void yearFromIs0() {
-            assertThat(settings.yearFrom.get()).isZero();
-        }
-
-        @Test
-        void yearToIs0() {
-            assertThat(settings.yearTo.get()).isZero();
-        }
-
-        @Test
-        void minPositionIs0() {
-            assertThat(settings.minPosition.get()).isZero();
-        }
-
-        @Test
-        void maxPositionIs0() {
-            assertThat(settings.maxPosition.get()).isZero();
-        }
-
-        @Test
-        void positionFromIs0() {
-            assertThat(settings.positionFrom.get()).isZero();
-        }
-
-        @Test
-        void positionToIs0() {
-            assertThat(settings.positionTo.get()).isZero();
-        }
-    }
-
-    @Nested
-    class AfterChartsWhereSet {
-        final Charts anyCharts = new Charts() {
-            @Override
-            public ChartsParser parser() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public int firstYear() {
-                return 3;
-            }
-
-            @Override
-            public int lastYear() {
-                return 4;
-            }
-        };
-
-        @BeforeEach
-        void createNewSettings() {
-            settings.charts.set(anyCharts);
-        }
-
-        @Test
         void chartsIsSet() {
             assertThat(settings.charts.get()).isEqualTo(anyCharts);
         }
@@ -173,6 +104,25 @@ class ChartsSettingsTest {
         @Test
         void positionToIsSet() {
             assertThat(settings.positionTo.get()).isEqualTo(anyCharts.highestPosition());
+        }
+    }
+
+    @Nested
+    class AfterChartsWhereSet {
+        @Test
+        void chartsIsSet() {
+            Charts otherCharts = new MockCharts(3, 4);
+
+            settings.charts.set(otherCharts);
+
+            assertThat(settings.charts.get()).isEqualTo(otherCharts);
+        }
+    }
+
+    private record MockCharts(int firstYear, int lastYear) implements Charts {
+        @Override
+        public ChartsParser parser() {
+            throw new UnsupportedOperationException();
         }
     }
 }

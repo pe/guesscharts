@@ -68,7 +68,7 @@ public class Gui extends Application {
     private static final List<Number> POSITIONS = List.of(1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500,
             1000);
 
-    private final ChartsSettings settings = new ChartsSettings();
+    private final ChartsSettings settings = new ChartsSettings(CHARTS.getFirst());
     private final DoubleProperty volume = new SimpleDoubleProperty();
     private final BooleanProperty showSolution = new SimpleBooleanProperty(true);
     private final ObjectProperty<Status> playerState = new SimpleObjectProperty<>(Status.PAUSED);
@@ -121,8 +121,6 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage stage) {
-        settings.charts.set(CHARTS.getFirst());
-
         ChartsEntryProperty chartsEntry = new ChartsEntryProperty();
 
         BorderPane root = new BorderPane();

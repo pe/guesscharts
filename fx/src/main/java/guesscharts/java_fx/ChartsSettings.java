@@ -20,7 +20,7 @@ class ChartsSettings {
     final GreaterLesserIntegerProperty positionFrom = new GreaterLesserIntegerProperty();
     final GreaterLesserIntegerProperty positionTo = new GreaterLesserIntegerProperty();
 
-    public ChartsSettings() {
+    public ChartsSettings(Charts charts) {
         this.charts.addListener((e, oldCharts, newCharts) -> {
             minYear.set(newCharts.firstYear());
             maxYear.set(newCharts.lastYear());
@@ -42,5 +42,7 @@ class ChartsSettings {
         positionFrom.ensureLessThanOrEqualTo(positionTo);
         positionTo.ensureLessThanOrEqualTo(maxPosition);
         positionTo.ensureGreaterThanOrEqualTo(positionFrom);
+
+        this.charts.set(charts);
     }
 }
