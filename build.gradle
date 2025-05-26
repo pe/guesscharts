@@ -3,16 +3,16 @@ subprojects {
         mavenCentral()
     }
 
-    plugins.withType(JavaPlugin).configureEach {
-        java {
-            modularity.inferModulePath = true
-        }
-        dependencies {
-            testImplementation platform('org.junit:junit-bom:5.11.0')
-            testImplementation platform('org.assertj:assertj-core:3.26.3')
-
-        }
-    }
+   plugins.withType(JavaPlugin).configureEach {
+      java {
+         modularity.inferModulePath = true
+      }
+      dependencies {
+         testImplementation platform('org.junit:junit-bom:5.11.0')
+         testImplementation platform('org.assertj:assertj-core:3.26.3')
+         implementation("org.jspecify:jspecify:1.0.0")
+      }
+   }
 
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
