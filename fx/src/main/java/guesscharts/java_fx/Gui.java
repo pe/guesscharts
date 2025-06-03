@@ -51,6 +51,7 @@ public class Gui extends Application {
     private final DoubleProperty volume = new SimpleDoubleProperty();
     private final BooleanProperty showSolution = new SimpleBooleanProperty(true);
     private final ObjectProperty<Status> playerState = new SimpleObjectProperty<>(Status.PAUSED);
+    private final RetryingRandomChartsParser retryingRandomChartsParser = new RetryingRandomChartsParser();
 
     private static ListCell<Charts> renderCharts(ListView<Charts> lv) {
         return new ListCell<>() {
@@ -228,9 +229,8 @@ public class Gui extends Application {
     }
 
     private ChartsEntry getRandomEntry() {
-        return new RetryingRandomChartsParser(settings.charts.get().parser()).getRandomEntry(
-                settings.yearFrom.getValue(), settings.yearTo.getValue(), settings.positionFrom.getValue(),
-                settings.positionTo.getValue());
+        return retryingRandomChartsParser.getRandomEntry(settings.charts.get().parser(), settings.yearFrom.getValue(),
+                settings.yearTo.getValue(), settings.positionFrom.getValue(), settings.positionTo.getValue());
     }
 
     private ProgressBar createProgressBar(ObjectProperty<MediaPlayer> mediaPlayer) {
