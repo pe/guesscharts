@@ -1,13 +1,5 @@
 package guesscharts.java_fx;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.Calendar;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import guesscharts.java_fx.util.ImageViewPane;
 import guesscharts.parser.Charts;
 import guesscharts.parser.ChartsEntry;
@@ -18,38 +10,17 @@ import guesscharts.parser.uk.UKCharts;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -60,10 +31,18 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URI;
+import java.time.Year;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class Gui extends Application {
     private static final BoxBlur BLUR = new BoxBlur(200, 200, 5);
     private static final List<Charts> CHARTS = List.of(new SwissCharts(), new GermanCharts(), new UKCharts());
-    private static final List<Number> YEARS = IntStream.rangeClosed(1900, Calendar.getInstance().get(Calendar.YEAR))
+    private static final List<Number> YEARS = IntStream.rangeClosed(1900, Year.now().getValue())
             .boxed().collect(Collectors.toList());
     private static final List<Number> POSITIONS = List.of(1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100, 200, 300, 400, 500,
             1000);

@@ -1,6 +1,6 @@
 package guesscharts.parser;
 
-import java.util.Calendar;
+import java.time.Year;
 
 /**
  * A charts website. Has lowest/highest position, first/last year and a {@link ChartsParser}.
@@ -29,7 +29,7 @@ public interface Charts {
      * @return the last year charts data is available (not all years may have charts data).
      */
     default int lastYear() {
-        return Calendar.getInstance().get(Calendar.YEAR) - 1;
+        return Year.now().minusYears(1).getValue();
     }
 
     /**
